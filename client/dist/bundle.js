@@ -27884,7 +27884,13 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../../../../../node_modules/react-dom/cjs/react-dom.development.js"}],"components/App.jsx":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../../../../../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Timer.jsx":[function(require,module,exports) {
+
+},{}],"components/BombCount.jsx":[function(require,module,exports) {
+
+},{}],"components/NewGameButton.jsx":[function(require,module,exports) {
+
+},{}],"components/Header.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27893,6 +27899,36 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
+
+var _Timer = _interopRequireDefault(require("./Timer"));
+
+var _BombCount = _interopRequireDefault(require("./BombCount"));
+
+var _NewGameButton = _interopRequireDefault(require("./NewGameButton"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var Header = function Header(props) {
+  return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_BombCount.default, null), _react.default.createElement(_NewGameButton.default, null), _react.default.createElement(_Timer.default, null));
+};
+
+var _default = Header;
+exports.default = _default;
+},{"react":"../../node_modules/react/index.js","./Timer":"components/Timer.jsx","./BombCount":"components/BombCount.jsx","./NewGameButton":"components/NewGameButton.jsx"}],"components/App.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _Header = _interopRequireDefault(require("./Header"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -27932,7 +27968,7 @@ function (_Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", null, "Rendering!"));
+      return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", null, "Rendering!"), _react.default.createElement(_Header.default, null));
     }
   }]);
 
@@ -27941,7 +27977,7 @@ function (_Component) {
 
 var _default = App;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js"}],"index.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","./Header":"components/Header.jsx"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));

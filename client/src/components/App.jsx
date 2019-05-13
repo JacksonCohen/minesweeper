@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import Header from './Header';
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class App extends Component {
     return (
       <Fragment>
         <div>Rendering!</div>
+        <Header />
       </Fragment>
     );
   }
