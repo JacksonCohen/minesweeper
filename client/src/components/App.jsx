@@ -9,6 +9,8 @@ class App extends Component {
     this.state = {
       boardSize: 10
     }
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   setBoardSize(size) {
@@ -17,13 +19,17 @@ class App extends Component {
     });
   }
 
+  handleClick(e) {
+    this.setBoardSize(e.target.value)
+  }
+
   render() {
     const { boardSize } = this.state; 
 
     return (
       <Fragment>
         <div>Rendering!</div>
-        <Header />
+        <Header handleClick={this.handleClick} />
         <Board size={boardSize} />
       </Fragment>
     );

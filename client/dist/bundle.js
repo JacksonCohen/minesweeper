@@ -27884,13 +27884,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../../../../../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Timer.jsx":[function(require,module,exports) {
-
-},{}],"components/BombCount.jsx":[function(require,module,exports) {
-
-},{}],"components/NewGameButton.jsx":[function(require,module,exports) {
-
-},{}],"components/Header.jsx":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../../../../../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Board.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27899,36 +27893,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
-
-var _Timer = _interopRequireDefault(require("./Timer"));
-
-var _BombCount = _interopRequireDefault(require("./BombCount"));
-
-var _NewGameButton = _interopRequireDefault(require("./NewGameButton"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-var Header = function Header(props) {
-  return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_BombCount.default, null), _react.default.createElement(_NewGameButton.default, null), _react.default.createElement(_Timer.default, null));
-};
-
-var _default = Header;
-exports.default = _default;
-},{"react":"../../node_modules/react/index.js","./Timer":"components/Timer.jsx","./BombCount":"components/BombCount.jsx","./NewGameButton":"components/NewGameButton.jsx"}],"components/App.jsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _Header = _interopRequireDefault(require("./Header"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -27950,6 +27914,205 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+var Board =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Board, _Component);
+
+  function Board(props) {
+    var _this;
+
+    _classCallCheck(this, Board);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props));
+    _this.state = {
+      board: []
+    };
+    return _this;
+  }
+
+  _createClass(Board, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.updateBoard(this.props.size);
+    }
+  }, {
+    key: "updateBoard",
+    value: function updateBoard(size) {
+      var _this2 = this;
+
+      var board = [];
+
+      for (var i = 0; i < size; i++) {
+        var innerArray = [];
+
+        for (var j = 0; j < size; j++) {
+          innerArray.push(null);
+        }
+
+        board.push(innerArray);
+      }
+
+      this.setState({
+        board: board
+      }, function () {
+        _this2.placeMines();
+      });
+    }
+  }, {
+    key: "placeMines",
+    value: function placeMines() {
+      var minesObject = {};
+      var boardSize = this.props.size;
+      var board = this.state.board;
+
+      while (Object.keys(minesObject).length < boardSize) {
+        var coords = [Math.floor(Math.random() * boardSize), Math.floor(Math.random() * boardSize)];
+        minesObject[coords] = 'Watch out for the mines!';
+      }
+
+      var mines = Object.keys(minesObject).map(function (key) {
+        return key.split(',').map(function (val) {
+          return +val;
+        });
+      });
+
+      for (var i = 0; i < mines.length; i++) {
+        board[mines[i][0]][mines[i][1]] = 'Mine';
+      }
+
+      this.setState({
+        board: board
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react.default.createElement(_react.Fragment, null);
+    }
+  }]);
+
+  return Board;
+}(_react.Component);
+
+var _default = Board;
+exports.default = _default;
+},{"react":"../../node_modules/react/index.js"}],"components/Timer.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var Timer = function Timer(props) {
+  return _react.default.createElement(_react.Fragment, null);
+};
+
+var _default = Timer;
+exports.default = _default;
+},{"react":"../../node_modules/react/index.js"}],"components/MineCount.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var MineCount = function MineCount(props) {
+  return _react.default.createElement(_react.Fragment, null);
+};
+
+var _default = MineCount;
+exports.default = _default;
+},{"react":"../../node_modules/react/index.js"}],"components/NewGameButton.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var NewGameButton = function NewGameButton(props) {
+  return _react.default.createElement(_react.Fragment, null);
+};
+
+var _default = NewGameButton;
+exports.default = _default;
+},{"react":"../../node_modules/react/index.js"}],"components/Header.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _Timer = _interopRequireDefault(require("./Timer"));
+
+var _MineCount = _interopRequireDefault(require("./MineCount"));
+
+var _NewGameButton = _interopRequireDefault(require("./NewGameButton"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var Header = function Header(props) {
+  return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_MineCount.default, null), _react.default.createElement(_NewGameButton.default, null), _react.default.createElement(_Timer.default, null));
+};
+
+var _default = Header;
+exports.default = _default;
+},{"react":"../../node_modules/react/index.js","./Timer":"components/Timer.jsx","./MineCount":"components/MineCount.jsx","./NewGameButton":"components/NewGameButton.jsx"}],"components/App.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _Board = _interopRequireDefault(require("./Board"));
+
+var _Header = _interopRequireDefault(require("./Header"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 var App =
 /*#__PURE__*/
 function (_Component) {
@@ -27961,14 +28124,34 @@ function (_Component) {
     _classCallCheck(this, App);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
-    _this.state = {};
+    _this.state = {
+      boardSize: 10
+    };
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(App, [{
+    key: "setBoardSize",
+    value: function setBoardSize(size) {
+      this.setState({
+        boardSize: size
+      });
+    }
+  }, {
+    key: "handleClick",
+    value: function handleClick(e) {
+      this.setBoardSize(e.target.value);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", null, "Rendering!"), _react.default.createElement(_Header.default, null));
+      var boardSize = this.state.boardSize;
+      return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", null, "Rendering!"), _react.default.createElement(_Header.default, {
+        handleClick: this.handleClick
+      }), _react.default.createElement(_Board.default, {
+        size: boardSize
+      }));
     }
   }]);
 
@@ -27977,7 +28160,7 @@ function (_Component) {
 
 var _default = App;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","./Header":"components/Header.jsx"}],"index.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","./Board":"components/Board.jsx","./Header":"components/Header.jsx"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -28017,7 +28200,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56939" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55669" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

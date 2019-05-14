@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-const BombCount = (props) => {
+const MineCount = (props) => {
   return (
     <Fragment>
 
@@ -8,4 +8,4 @@ const BombCount = (props) => {
   );
 }
 
-export default BombCount
+export default MineCount;
