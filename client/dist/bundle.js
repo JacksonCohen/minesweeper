@@ -27956,7 +27956,7 @@ function (_Component) {
       this.setState({
         board: board
       }, function () {
-        _this2.placeMines();
+        _this2.placeMines(), _this2.placeNumbers();
       });
     }
   }, {
@@ -27978,12 +27978,68 @@ function (_Component) {
       });
 
       for (var i = 0; i < mines.length; i++) {
-        board[mines[i][0]][mines[i][1]] = 'Mine';
+        board[mines[i][0]][mines[i][1]] = 'MINE';
       }
 
       this.setState({
         board: board
       });
+    }
+  }, {
+    key: "placeNumbers",
+    value: function placeNumbers() {
+      var board = this.state.board;
+      var count = 0;
+
+      for (var i = 0; i < board.length; i++) {
+        for (var j = 0; j < board[i].length; j++) {
+          count = 0;
+
+          if (board[i][j] === 'MINE') {
+            continue;
+          }
+
+          if (board[i][j + 1] === 'MINE') {
+            count++;
+          }
+
+          if (board[i][j - 1] === 'MINE') {
+            count++;
+          }
+
+          if (board[i + 1]) {
+            if (board[i + 1][j] === 'MINE') {
+              count++;
+            }
+
+            if (board[i + 1][j - 1] === 'MINE') {
+              count++;
+            }
+
+            if (board[i + 1][j + 1] === 'MINE') {
+              count++;
+            }
+          }
+
+          if (board[i - 1]) {
+            if (board[i - 1][j] === 'MINE') {
+              count++;
+            }
+
+            if (board[i - 1][j - 1] === 'MINE') {
+              count++;
+            }
+
+            if (board[i - 1][j + 1] === 'MINE') {
+              count++;
+            }
+          }
+
+          if (count > 0) {
+            board[i][j] = count;
+          }
+        }
+      }
     }
   }, {
     key: "render",
