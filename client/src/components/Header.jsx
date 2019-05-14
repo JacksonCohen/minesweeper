@@ -6,7 +6,7 @@ import NewGameButton from './NewGameButton';
 const Header = (props) => {
   return (
     <Fragment>
-      <MineCount />
+      <MineCount mines={props.mines} />
       <NewGameButton />
       <Timer />
     </Fragment>

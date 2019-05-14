@@ -1,0 +1,9 @@
+.mine-count {
+  color: red;
+  font-family: Minesweeper;
+}
+
+@font-face {
+  font-family: Minesweeper;
+  src: url("/fonts/Minesweeper.ttf");
+}

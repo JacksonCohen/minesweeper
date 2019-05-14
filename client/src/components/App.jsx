@@ -7,6 +7,7 @@ class App extends Component {
     super(props);
 
     this.state = {
+      mines: 10,
       boardSize: 10
     }
 
@@ -24,13 +25,13 @@ class App extends Component {
   }
 
   render() {
-    const { boardSize } = this.state; 
+    const { mines, boardSize } = this.state; 
 
     return (
       <Fragment>
-        <div>Rendering!</div>
-        <Header handleClick={this.handleClick} />
-        <Board size={boardSize} />
+        {/* <div>Rendering!</div> */}
+        <Header mines={mines} handleClick={this.handleClick} />
+        <Board mines={mines} boardSize={boardSize} />
       </Fragment>
     );
   }

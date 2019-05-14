@@ -10,7 +10,7 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    this.updateBoard(this.props.size);
+    this.updateBoard(this.props.boardSize);
   }
 
   updateBoard(size) {
@@ -24,15 +24,15 @@ class Board extends Component {
       board.push(innerArray);
     }
 
-    this.setState({ board }, () => { this.placeMines(), this.placeNumbers() });
+    this.setState({ board }, () => { this.placeMines(), this.placeNumbers(), console.table(this.state.board) });
   }
 
   placeMines() {
     const minesObject = {};
-    const boardSize = this.props.size;
-    const board = this.state.board;    
+    const { mines, boardSize } = this.props;
+    const board = this.state.board; 
     
-    while (Object.keys(minesObject).length < boardSize) {
+    while (Object.keys(minesObject).length < mines) {
       const coords = [
         Math.floor(Math.random() * boardSize), 
         Math.floor(Math.random() * boardSize)
@@ -41,10 +41,10 @@ class Board extends Component {
       minesObject[coords] = 'Watch out for the mines!';
     }
     
-    const mines = Object.keys(minesObject).map(key => key.split(',').map(val => +val));
+    const minesArray = Object.keys(minesObject).map(key => key.split(',').map(val => +val));
 
-    for (let i = 0; i < mines.length; i++) {
-      board[mines[i][0]][mines[i][1]] = 'MINE';
+    for (let i = 0; i < minesArray.length; i++) {
+      board[minesArray[i][0]][minesArray[i][1]] = 'MINE';
     }
 
     this.setState({
@@ -53,7 +53,7 @@ class Board extends Component {
   }
 
   placeNumbers() {
-    const board = this.state.board
+    const board = this.state.board;
     let count = 0;
 
     for (let i = 0; i < board.length; i++) {

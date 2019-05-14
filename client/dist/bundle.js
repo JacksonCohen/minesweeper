@@ -27934,7 +27934,7 @@ function (_Component) {
   _createClass(Board, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.updateBoard(this.props.size);
+      this.updateBoard(this.props.boardSize);
     }
   }, {
     key: "updateBoard",
@@ -27956,29 +27956,31 @@ function (_Component) {
       this.setState({
         board: board
       }, function () {
-        _this2.placeMines(), _this2.placeNumbers();
+        _this2.placeMines(), _this2.placeNumbers(), console.table(_this2.state.board);
       });
     }
   }, {
     key: "placeMines",
     value: function placeMines() {
       var minesObject = {};
-      var boardSize = this.props.size;
+      var _this$props = this.props,
+          mines = _this$props.mines,
+          boardSize = _this$props.boardSize;
       var board = this.state.board;
 
-      while (Object.keys(minesObject).length < boardSize) {
+      while (Object.keys(minesObject).length < mines) {
         var coords = [Math.floor(Math.random() * boardSize), Math.floor(Math.random() * boardSize)];
         minesObject[coords] = 'Watch out for the mines!';
       }
 
-      var mines = Object.keys(minesObject).map(function (key) {
+      var minesArray = Object.keys(minesObject).map(function (key) {
         return key.split(',').map(function (val) {
           return +val;
         });
       });
 
-      for (var i = 0; i < mines.length; i++) {
-        board[mines[i][0]][mines[i][1]] = 'MINE';
+      for (var i = 0; i < minesArray.length; i++) {
+        board[minesArray[i][0]][minesArray[i][1]] = 'MINE';
       }
 
       this.setState({
@@ -28084,7 +28086,10 @@ var _react = _interopRequireWildcard(require("react"));
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var MineCount = function MineCount(props) {
-  return _react.default.createElement(_react.Fragment, null);
+  console.log(props.MineCount);
+  return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", {
+    className: "mine-count"
+  }, props.mines));
 };
 
 var _default = MineCount;
@@ -28128,7 +28133,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var Header = function Header(props) {
-  return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_MineCount.default, null), _react.default.createElement(_NewGameButton.default, null), _react.default.createElement(_Timer.default, null));
+  return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_MineCount.default, {
+    mines: props.mines
+  }), _react.default.createElement(_NewGameButton.default, null), _react.default.createElement(_Timer.default, null));
 };
 
 var _default = Header;
@@ -28181,6 +28188,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.state = {
+      mines: 10,
       boardSize: 10
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
@@ -28202,11 +28210,15 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var boardSize = this.state.boardSize;
-      return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", null, "Rendering!"), _react.default.createElement(_Header.default, {
+      var _this$state = this.state,
+          mines = _this$state.mines,
+          boardSize = _this$state.boardSize;
+      return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_Header.default, {
+        mines: mines,
         handleClick: this.handleClick
       }), _react.default.createElement(_Board.default, {
-        size: boardSize
+        mines: mines,
+        boardSize: boardSize
       }));
     }
   }]);
@@ -28256,7 +28268,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55669" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53958" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
