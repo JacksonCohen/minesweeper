@@ -10,26 +10,39 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    this.updateBoard(this.props.size);
+    this.updateBoard(this.props.size, this.placeMines());
   }
 
-  updateBoard(size) {
+  updateBoard(size, callback) {
+    let board = [];
+
+    for (let i = 0; i < size; i++) {
+      let innerArray = [];
+      for (let j = 0; j < size; j++) {
+        innerArray.push(null);
+      }
+      board.push(innerArray)
+    }
+
     this.setState({
-      board: Array(size).fill(Array(size).fill(null))
-    });
+      board: board
+    }, callback());
   }
 
   placeMines() {
-    // Based on current board size, generate unique coordinates on the board and set a bomb "B" on that space
-    const mines = {};
+    const minesObject = {};
     const boardSize = this.state.boardSize;    
     
-    while (Object.keys(mines).length < boardSize) {
+    while (Object.keys(minesObject).length < boardSize) {
       const coords = [Math.ceil(Math.random() * boardSize), Math.ceil(Math.random() * boardSize)];
-      mines[coords] = 'Watch out for the mines!';
+      minesObject[coords] = 'Watch out for the mines!';
     }
     
-    return Object.keys(mines).map(key => key.split(',').map(val => +val));
+    const mines = Object.keys(minesObject).map(key => key.split(',').map(val => +val));
+
+    for (let i = 0; i < mines.length; i++) {
+      array[mines[i][0]][mines[i][1]] = 'Mine';
+    }
   }
 
   render() {
