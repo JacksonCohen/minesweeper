@@ -8,7 +8,7 @@ class App extends Component {
 
     this.state = {
       mines: 10,
-      boardSize: 10
+      boardSize: 9
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -29,7 +29,6 @@ class App extends Component {
 
     return (
       <Fragment>
-        {/* <div>Rendering!</div> */}
         <Header mines={mines} handleClick={this.handleClick} />
         <Board mines={mines} boardSize={boardSize} />
       </Fragment>

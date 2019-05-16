@@ -1,4 +1,4 @@
-.mine-count {
+.mine-count, .timer {
   color: red;
   font-family: Minesweeper;
 }
