@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import Square from './Square';
 
 class Board extends Component {
   constructor(props) {
@@ -7,6 +8,15 @@ class Board extends Component {
     this.state = {
       board: []
     }
+  }
+
+  renderSquare(i) {
+    return (
+      <Square
+        value={this.props.squares[i]}
+        onClick={() => this.props.onClick(i)}
+      />
+    );
   }
 
   componentDidMount() {

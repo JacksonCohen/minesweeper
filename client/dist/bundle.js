@@ -27884,7 +27884,28 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../../../../../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Board.jsx":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../../../../../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Square.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Square = function Square(props) {
+  return _react.default.createElement("button", {
+    className: "square",
+    onClick: props.onClick
+  }, props.value);
+};
+
+var _default = Square;
+exports.default = _default;
+},{"react":"../../node_modules/react/index.js"}],"components/Board.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27893,6 +27914,10 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
+
+var _Square = _interopRequireDefault(require("./Square"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -27932,6 +27957,18 @@ function (_Component) {
   }
 
   _createClass(Board, [{
+    key: "renderSquare",
+    value: function renderSquare(i) {
+      var _this2 = this;
+
+      return _react.default.createElement(_Square.default, {
+        value: this.props.squares[i],
+        onClick: function onClick() {
+          return _this2.props.onClick(i);
+        }
+      });
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.updateBoard(this.props.boardSize);
@@ -27939,7 +27976,7 @@ function (_Component) {
   }, {
     key: "updateBoard",
     value: function updateBoard(size) {
-      var _this2 = this;
+      var _this3 = this;
 
       var board = [];
 
@@ -27956,7 +27993,7 @@ function (_Component) {
       this.setState({
         board: board
       }, function () {
-        _this2.placeMines(), _this2.placeNumbers(), console.table(_this2.state.board);
+        _this3.placeMines(), _this3.placeNumbers(), console.table(_this3.state.board);
       });
     }
   }, {
@@ -28055,7 +28092,7 @@ function (_Component) {
 
 var _default = Board;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js"}],"components/Timer.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","./Square":"components/Square.jsx"}],"components/Timer.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28165,7 +28202,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, props));
     _this.state = {
-      time: 0
+      time: '000'
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
@@ -28178,24 +28215,38 @@ function (_Component) {
 
       clearInterval(this.timer);
 
+      var pad = function pad(str) {
+        str = str.toString();
+        return str.length < 3 ? pad("0" + str, 3) : str;
+      };
+
       var increment = function increment() {
-        _this2.setState({
-          time: _this2.state.time + 1
-        });
+        if (+_this2.state.time < 999) {
+          _this2.setState({
+            time: pad(+_this2.state.time + 1)
+          });
+        } else {
+          clearInterval(_this2.timer);
+        }
       };
 
       this.timer = setInterval(function () {
         increment();
       }, 1000);
       this.setState({
-        time: 0
+        time: '000'
       });
     }
   }, {
     key: "render",
     value: function render() {
+      var pad = function pad(str) {
+        str = str.toString();
+        return str.length < 3 ? pad("0" + str, 3) : str;
+      };
+
       return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_MineCount.default, {
-        mines: this.props.mines
+        mines: pad(this.props.mines)
       }), _react.default.createElement(_NewGameButton.default, {
         handleClick: this.handleClick
       }), _react.default.createElement(_Timer.default, {
@@ -28337,7 +28388,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50412" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60118" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
