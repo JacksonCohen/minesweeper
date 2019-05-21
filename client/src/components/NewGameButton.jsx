@@ -9,13 +9,13 @@ const NewGameButton = (props) => {
 
   const button = (state) => {
     if (state === 'win') {
-      return <img src={win} style={{width:"24px", position: "relative", right: "2px", top: "2px"}}/>;
+      return <img src={win} style={{width:"24px", position: "relative", right: "3px", top: "2px"}}/>;
     } else if (state === 'lose') {
-      return <img src={lose} style={{width:"24px", position: "relative", right: "2px", top: "2px"}}/>;
+      return <img src={lose} style={{width:"24px", position: "relative", right: "3px", top: "2px"}}/>;
     } else if (state === 'clicked') {
-      return <img src={surprise} style={{width:"24px", position: "relative", right: "2px", top: "2px"}}/>;
+      return <img src={surprise} style={{width:"24px", position: "relative", right: "3px", top: "2px"}}/>;
     } else {
-      return <img src={alive} style={{width:"24px", position: "relative", right: "2px", top: "2px"}}/>;
+      return <img src={alive} style={{width:"24px", position: "relative", right: "3px", top: "2px"}}/>;
     }
   }
 

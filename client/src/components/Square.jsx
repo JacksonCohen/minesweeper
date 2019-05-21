@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Square = (props) => {
-  return (
-    <button className="square" onClick={props.onClick} >
-      {props.clicked ? props.value : null}
-    </button>
-  );
+class Square extends Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      clicked: false
+    }
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState({
+      clicked: true
+    });
+  }
+
+  render() {
+    return (
+      <button className="square" onClick={this.handleClick} >
+        {this.state.clicked ? this.props.value : null}
+      </button>
+    );
+  }
 }
 
 export default Square;

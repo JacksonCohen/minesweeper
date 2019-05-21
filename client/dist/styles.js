@@ -189,7 +189,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"C:\\Users\\Jackson\\Desktop\\HRNYC\\minesweeper\\client\\src\\fonts\\Minesweeper.ttf":[["Minesweeper.e9d3dce7.ttf","fonts/Minesweeper.ttf"],"fonts/Minesweeper.ttf"],"_css_loader":"../../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"C:\\Users\\Jackson\\Desktop\\HRNYC\\minesweeper\\client\\src\\fonts\\Pixel.ttf":[["Pixel.e5a5d1d3.ttf","fonts/Pixel.ttf"],"fonts/Pixel.ttf"],"_css_loader":"../../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

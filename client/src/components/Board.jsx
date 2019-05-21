@@ -19,7 +19,7 @@ class Board extends Component {
       for (let j = 0; j < boardSize; j++) {
         row.push(this.renderSquare(i, j));
       }
-      board.push(<div className={`row`}>{[...row]}</div>);
+      board.push(<div className="row">{[...row]}</div>);
     }
     return board;
   }
@@ -31,7 +31,9 @@ class Board extends Component {
   renderSquare(i, j) {
     return (
       <Square
+      // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
         value={this.state.board[i][j]}
+        // onClick={this.props.handleSquareClick()}
         onClick={this.handleClick(i)}
       />
     );

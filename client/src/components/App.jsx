@@ -10,11 +10,12 @@ class App extends Component {
       mines: 10,
       boardSize: 9,
       time: '000',
-      gameState: 'alive'    }
+      gameState: 'alive'
+    }
 
-    // this.handleClick = this.handleClick.bind(this);
     this.pad = this.pad.bind(this);
     this.handleTimerClick = this.handleTimerClick.bind(this);
+    this.handleSquareClick = this.handleSquareClick.bind(this);
   }
 
   // setBoardSize(size) {
@@ -52,14 +53,24 @@ class App extends Component {
   //   this.setBoardSize(e.target.value);
   // }
 
+  handleSquareClick(e) {
+    this.setState({
+      gameState: 'clicked'
+    });
+  }
+
   render() {
     // Create gameStarted state to manage when timer should tick
     const { time, mines, boardSize, gameState } = this.state; 
 
     return (
       <div id="game">
-        <Header mines={mines} handleClick={this.handleClick} handleTimerClick={this.handleTimerClick} state={gameState} time={time} pad={this.pad} />
-        <Board mines={mines} boardSize={boardSize} />
+        <div id="header">
+          <Header mines={mines} handleClick={this.handleClick} handleTimerClick={this.handleTimerClick} state={gameState} time={time} pad={this.pad} />
+        </div>
+        <div id="squares">
+          <Board mines={mines} boardSize={boardSize} handleSquareClick={this.handleSquareClick} />
+        </div>
       </div>
     );
   }

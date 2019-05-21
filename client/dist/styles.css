@@ -1,7 +1,7 @@
 #game {
   background-color: #BDBDBD;
-  height: 350px;
-  width: 280px;
+  height: 360px;
+  width: 285px;
   padding-left: 10px;
   padding-top: 5px;
   border: 5px solid;
@@ -14,9 +14,9 @@
 #header {
   background-color: #BDBDBD;
   height: 50px;
-  width: 250px;
+  width: 260px;
   padding-left: 10px;
-  padding-top: 2px;
+  margin-top: 4px;
   padding-bottom: 2px;
   margin-bottom: 10px;
   border: 3px solid;
@@ -26,48 +26,48 @@
   border-top-color: #7B7B7B;
 }
 
+#squares {
+  width: 270px;
+  border: 3px solid;
+  border-right-color: rgb(255, 255, 255);
+  border-bottom-color: rgba(255, 255, 255);
+  border-left-color: #7B7B7B;
+  border-top-color: #7B7B7B;
+}
+
 .mine-count {
-  display: inline;
-  /* position: relative; */
+  display: flex;
   color: red;
-  font-family: Minesweeper;
-  font-size: 30px;
-  padding-right: 8px;
-  /* top:  */
+  font-family: Pixel;
+  font-size: 36px;
 }
 
 .timer {
-  /* display: inline; */
-  /* position: absolute; */
+  display: flex;
   color: red;
-  font-family: Minesweeper;
-  font-size: 30px;
-  /* top: 12px;
-  left: 73px; */
+  font-family: Pixel;
+  font-size: 36px;
 }
 
 .mine-count-container {
-  /* background: black; */
+  background: black;
   display: inline-block;
-  /* padding: 0;
-
-  margin: 0;
-  border: 0;
-  width: 28px;
-  height: 11px; */
+  margin-top: 6px;
+  padding-left: 1px;
+  padding-right: 1px;
 }
 
 .timer-container {
-  /* background: black; */
+  background: black;
   display: inline-block;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  width: 28px;
-  height: 11px;
+  margin-top: 6px;
+  padding-left: 1px;
+  padding-right: 1px;
 }
 
 .new-game {
+  /* display: flex; */
+  position: relative; 
   height: 36px;
   width: 36px;
   border-left-color: rgba(255, 255, 255);
@@ -75,8 +75,10 @@
   /* border-right-color: #7B7B7B; */
   /* border-bottom-color: #7B7B7B; */
   border-width: 3px;
-  margin-right: 8px;
+  margin-left: 30px;
+  margin-right: 30px;
   margin-bottom: 8px;
+  bottom: 4px;
 }
 
 .square {
@@ -103,10 +105,8 @@ button:focus {
 }
 
 .new-game:active {
-  /* border: 0 !important; */
-  border-right-width: 1px;
-  border-bottom-width: 1px;
-  /* border-color: #7B7B7B !important; */
+  border-right-width: 2px;
+  border-bottom-width: 2px;
   background-color: #BDBDBD !important;
 }
 
@@ -116,6 +116,6 @@ button:focus {
 }
 
 @font-face {
-  font-family: Minesweeper;
-  src: url("/Minesweeper.e9d3dce7.ttf");
+  font-family: Pixel;
+  src: url("/Pixel.e5a5d1d3.ttf");
 }
