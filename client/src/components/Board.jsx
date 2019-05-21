@@ -1,26 +1,36 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Square from './Square';
 
 class Board extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      board: []
-    }
   }
 
-  renderSquare(i) {
+  componentWillMount() {
+    this.updateBoard(this.props.boardSize);
+  }
+
+  renderBoard() {
+    let { boardSize } = this.props;
+    let board = [];
+
+    for (let i = 0; i < boardSize; i++) {
+      let row = [];
+      for (let j = 0; j < boardSize; j++) {
+        row.push(this.renderSquare(i, j));
+      }
+      board.push(<div className={`row`}>{[...row]}</div>);
+    }
+    return board;
+  }
+   
+  renderSquare(i, j) {
     return (
       <Square
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        value={this.state.board[i][j]}
+        // onClick={this.props.handleClick(i)}
       />
     );
-  }
-
-  componentDidMount() {
-    this.updateBoard(this.props.boardSize);
   }
 
   updateBoard(size) {
@@ -40,7 +50,7 @@ class Board extends Component {
   placeMines() {
     const minesObject = {};
     const { mines, boardSize } = this.props;
-    const board = this.state.board; 
+    const { board } = this.state; 
     
     while (Object.keys(minesObject).length < mines) {
       const coords = [
@@ -63,7 +73,7 @@ class Board extends Component {
   }
 
   placeNumbers() {
-    const board = this.state.board;
+    const { board } = this.state;
     let count = 0;
 
     for (let i = 0; i < board.length; i++) {
@@ -109,9 +119,9 @@ class Board extends Component {
 
   render() {
     return (
-      <Fragment>
-
-      </Fragment>
+      <div id="board">
+        {this.renderBoard()}
+      </div>
     );
   }
 }

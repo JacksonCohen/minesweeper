@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 const NewGameButton = (props) => {
   return (
     <Fragment>
-      <button onClick={props.handleClick}>:)</button>
+      <button className="new-game" onClick={props.handleClick}>:)</button>
     </Fragment>
   );
 }

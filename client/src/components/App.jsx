@@ -8,7 +8,8 @@ class App extends Component {
 
     this.state = {
       mines: 10,
-      boardSize: 9
+      boardSize: 9,
+      gameStarted: false
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -21,15 +22,16 @@ class App extends Component {
   }
 
   handleClick(e) {
-    this.setBoardSize(e.target.value)
+    this.setBoardSize(e.target.value);
   }
 
   render() {
-    const { mines, boardSize } = this.state; 
+    // Create gameStarted state to manage when timer should tick
+    const { mines, boardSize, gameStarted } = this.state; 
 
     return (
       <Fragment>
-        <Header mines={mines} handleClick={this.handleClick} />
+        <Header mines={mines} handleClick={this.handleClick} game={gameStarted} />
         <Board mines={mines} boardSize={boardSize} />
       </Fragment>
     );

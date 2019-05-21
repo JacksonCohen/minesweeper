@@ -27898,6 +27898,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Square = function Square(props) {
   return _react.default.createElement("button", {
+    key: props.value,
     className: "square",
     onClick: props.onClick
   }, props.value);
@@ -27945,38 +27946,48 @@ function (_Component) {
   _inherits(Board, _Component);
 
   function Board(props) {
-    var _this;
-
     _classCallCheck(this, Board);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props));
-    _this.state = {
-      board: []
-    };
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props));
   }
 
   _createClass(Board, [{
-    key: "renderSquare",
-    value: function renderSquare(i) {
-      var _this2 = this;
-
-      return _react.default.createElement(_Square.default, {
-        value: this.props.squares[i],
-        onClick: function onClick() {
-          return _this2.props.onClick(i);
-        }
-      });
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      this.updateBoard(this.props.boardSize);
     }
   }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.updateBoard(this.props.boardSize);
+    key: "renderBoard",
+    value: function renderBoard() {
+      var boardSize = this.props.boardSize;
+      var board = [];
+
+      for (var i = 0; i < boardSize; i++) {
+        var row = [];
+
+        for (var j = 0; j < boardSize; j++) {
+          row.push(this.renderSquare(i, j));
+        }
+
+        board.push(_react.default.createElement("div", {
+          className: "row"
+        }, [].concat(row)));
+      }
+
+      return board;
+    }
+  }, {
+    key: "renderSquare",
+    value: function renderSquare(i, j) {
+      return _react.default.createElement(_Square.default, {
+        value: this.state.board[i][j] // onClick={this.props.handleClick(i)}
+
+      });
     }
   }, {
     key: "updateBoard",
     value: function updateBoard(size) {
-      var _this3 = this;
+      var _this = this;
 
       var board = [];
 
@@ -27993,7 +28004,7 @@ function (_Component) {
       this.setState({
         board: board
       }, function () {
-        _this3.placeMines(), _this3.placeNumbers(), console.table(_this3.state.board);
+        _this.placeMines(), _this.placeNumbers(), console.table(_this.state.board);
       });
     }
   }, {
@@ -28083,7 +28094,9 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_react.Fragment, null);
+      return _react.default.createElement("div", {
+        id: "board"
+      }, this.renderBoard());
     }
   }]);
 
@@ -28146,6 +28159,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var NewGameButton = function NewGameButton(props) {
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement("button", {
+    className: "new-game",
     onClick: props.handleClick
   }, ":)"));
 };
@@ -28309,7 +28323,8 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.state = {
       mines: 10,
-      boardSize: 9
+      boardSize: 9,
+      gameStarted: false
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
@@ -28330,12 +28345,15 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      // Create gameStarted state to manage when timer should tick
       var _this$state = this.state,
           mines = _this$state.mines,
-          boardSize = _this$state.boardSize;
+          boardSize = _this$state.boardSize,
+          gameStarted = _this$state.gameStarted;
       return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_Header.default, {
         mines: mines,
-        handleClick: this.handleClick
+        handleClick: this.handleClick,
+        game: gameStarted
       }), _react.default.createElement(_Board.default, {
         mines: mines,
         boardSize: boardSize
@@ -28388,7 +28406,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60118" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51576" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
