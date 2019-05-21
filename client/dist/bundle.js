@@ -27900,7 +27900,7 @@ var Square = function Square(props) {
   return _react.default.createElement("button", {
     className: "square",
     onClick: props.onClick
-  }, props.value);
+  }, props.clicked ? props.value : null);
 };
 
 var _default = Square;
@@ -28244,7 +28244,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
 var _Timer = _interopRequireDefault(require("./Timer"));
 
@@ -28254,16 +28254,11 @@ var _NewGameButton = _interopRequireDefault(require("./NewGameButton"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
 var Header = function Header(props) {
-  var pad = function pad(str) {
-    str = str.toString();
-    return str.length < 3 ? pad("0" + str, 3) : str;
-  };
-
-  return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_MineCount.default, {
-    mines: pad(props.mines)
+  return _react.default.createElement("div", {
+    id: "header"
+  }, _react.default.createElement(_MineCount.default, {
+    mines: props.pad(props.mines)
   }), _react.default.createElement(_NewGameButton.default, {
     handleTimerClick: props.handleTimerClick,
     state: props.state
@@ -28323,21 +28318,26 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.state = {
       mines: 10,
-      time: '000',
       boardSize: 9,
+      time: '000',
       gameState: 'alive' // this.handleClick = this.handleClick.bind(this);
 
     };
+    _this.pad = _this.pad.bind(_assertThisInitialized(_this));
     _this.handleTimerClick = _this.handleTimerClick.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // setBoardSize(size) {
+  //   this.setState({
+  //     boardSize: size
+  //   });
+  // }
+
 
   _createClass(App, [{
-    key: "setBoardSize",
-    value: function setBoardSize(size) {
-      this.setState({
-        boardSize: size
-      });
+    key: "pad",
+    value: function pad(str) {
+      str = str.toString();
+      return str.length < 3 ? this.pad("0" + str, 3) : str;
     }
   }, {
     key: "handleTimerClick",
@@ -28346,15 +28346,10 @@ function (_Component) {
 
       clearInterval(this.timer);
 
-      var pad = function pad(str) {
-        str = str.toString();
-        return str.length < 3 ? pad("0" + str, 3) : str;
-      };
-
       var increment = function increment() {
         if (+_this2.state.time < 999) {
           _this2.setState({
-            time: pad(+_this2.state.time + 1)
+            time: _this2.pad(+_this2.state.time + 1)
           });
         } else {
           clearInterval(_this2.timer);
@@ -28380,12 +28375,15 @@ function (_Component) {
           mines = _this$state.mines,
           boardSize = _this$state.boardSize,
           gameState = _this$state.gameState;
-      return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_Header.default, {
+      return _react.default.createElement("div", {
+        id: "game"
+      }, _react.default.createElement(_Header.default, {
         mines: mines,
         handleClick: this.handleClick,
         handleTimerClick: this.handleTimerClick,
         state: gameState,
-        time: time
+        time: time,
+        pad: this.pad
       }), _react.default.createElement(_Board.default, {
         mines: mines,
         boardSize: boardSize

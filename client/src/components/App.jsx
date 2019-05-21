@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Board from './Board';
 import Header from './Header';
 
@@ -8,32 +8,33 @@ class App extends Component {
 
     this.state = {
       mines: 10,
-      time: '000',
       boardSize: 9,
+      time: '000',
       gameState: 'alive'    }
 
     // this.handleClick = this.handleClick.bind(this);
+    this.pad = this.pad.bind(this);
     this.handleTimerClick = this.handleTimerClick.bind(this);
   }
 
-  setBoardSize(size) {
-    this.setState({
-      boardSize: size
-    });
+  // setBoardSize(size) {
+  //   this.setState({
+  //     boardSize: size
+  //   });
+  // }
+
+  pad (str) {
+    str = str.toString();
+    return str.length < 3 ? this.pad("0" + str, 3) : str;
   }
 
   handleTimerClick() {
     clearInterval(this.timer);
 
-    const pad = (str) => {
-      str = str.toString();
-      return str.length < 3 ? pad("0" + str, 3) : str;
-    }
-
     const increment = () => {
       if (+this.state.time < 999) {
         this.setState({
-          time: pad(+this.state.time + 1)
+          time: this.pad(+this.state.time + 1)
         });
       } else {
         clearInterval(this.timer);
@@ -56,10 +57,10 @@ class App extends Component {
     const { time, mines, boardSize, gameState } = this.state; 
 
     return (
-      <Fragment>
-        <Header mines={mines} handleClick={this.handleClick} handleTimerClick={this.handleTimerClick} state={gameState} time={time} />
+      <div id="game">
+        <Header mines={mines} handleClick={this.handleClick} handleTimerClick={this.handleTimerClick} state={gameState} time={time} pad={this.pad} />
         <Board mines={mines} boardSize={boardSize} />
-      </Fragment>
+      </div>
     );
   }
 }
