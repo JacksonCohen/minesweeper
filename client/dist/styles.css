@@ -1,30 +1,71 @@
-.mine-count, .timer {
+.mine-count {
+  display: inline;
+  /* position: relative; */
   color: red;
   font-family: Minesweeper;
+  font-size: 30px;
+  padding-right: 8px;
+  /* top:  */
+}
+
+.timer {
+  /* display: inline; */
+  /* position: absolute; */
+  color: red;
+  font-family: Minesweeper;
+  font-size: 30px;
+  /* top: 12px;
+  left: 73px; */
+}
+
+.mine-count-container {
+  /* background: black; */
+  display: inline-block;
+  /* padding: 0;
+
+  margin: 0;
+  border: 0;
+  width: 28px;
+  height: 11px; */
+}
+
+.timer-container {
+  /* background: black; */
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  width: 28px;
+  height: 11px;
+}
+
+.new-game {
+  height: 36px;
+  width: 36px;
+  border-left-color: rgba(255, 255, 255);
+  border-top-color: rgba(255, 255, 255);
+  /* border-right-color: #7B7B7B; */
+  /* border-bottom-color: #7B7B7B; */
+  border-width: 3px;
+  margin-right: 8px;
+  margin-bottom: 8px;
 }
 
 .square {
-  height: 10px;
-  width: 10px;
+  height: 30px;
+  width: 30px;
   padding: 0;
   margin: 0;
   border-left-color: rgb(255, 255, 255);
   border-top-color: rgba(255, 255, 255);
   /* border-right-color: #7B7B7B; */
   /* border-bottom-color: #7B7B7B; */
-  border-width: 1.2px;
+  border-width: 3px;
   background-color: #BDBDBD;
-  font-size: 4px;
+  font-size: 12px;
 }
 
-.new-game {
-  border-left-color: rgba(255, 255, 255);
-  border-top-color: rgba(255, 255, 255);
-  /* border-right-color: #7B7B7B; */
-  /* border-bottom-color: #7B7B7B; */
-}
-
-.square:focus {
+button:focus {
   outline: 0;
 }
 
@@ -33,10 +74,17 @@
   background-color: #BDBDBD !important;
 }
 
+.new-game:active {
+  /* border: 0 !important; */
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  /* border-color: #7B7B7B !important; */
+  background-color: #BDBDBD !important;
+}
 
 .row {
   display: flex;
-  height: 10px;
+  height: 30px;
 }
 
 @font-face {

@@ -27898,7 +27898,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Square = function Square(props) {
   return _react.default.createElement("button", {
-    key: props.value,
     className: "square",
     onClick: props.onClick
   }, props.value);
@@ -27977,11 +27976,14 @@ function (_Component) {
       return board;
     }
   }, {
+    key: "handleClick",
+    value: function handleClick() {}
+  }, {
     key: "renderSquare",
     value: function renderSquare(i, j) {
       return _react.default.createElement(_Square.default, {
-        value: this.state.board[i][j] // onClick={this.props.handleClick(i)}
-
+        value: this.state.board[i][j],
+        onClick: this.handleClick(i)
       });
     }
   }, {
@@ -28113,12 +28115,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Timer = function Timer(props) {
-  return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", {
+  return _react.default.createElement("div", {
+    className: "timer-container"
+  }, _react.default.createElement("div", {
     className: "timer"
   }, props.time));
 };
@@ -28133,19 +28137,29 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MineCount = function MineCount(props) {
-  return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", {
+  return _react.default.createElement("div", {
+    className: "mine-count-container"
+  }, _react.default.createElement("div", {
     className: "mine-count"
   }, props.mines));
 };
 
 var _default = MineCount;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js"}],"components/NewGameButton.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js"}],"images/minesweeper-win.png":[function(require,module,exports) {
+module.exports = "/minesweeper-win.6ccd7c2c.png";
+},{}],"images/minesweeper-lose.png":[function(require,module,exports) {
+module.exports = "/minesweeper-lose.b7901d76.png";
+},{}],"images/minesweeper-alive.png":[function(require,module,exports) {
+module.exports = "/minesweeper-alive.d8c2cc85.png";
+},{}],"images/minesweeper-surprised.png":[function(require,module,exports) {
+module.exports = "/minesweeper-surprised.95199703.png";
+},{}],"components/NewGameButton.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28155,18 +28169,74 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _minesweeperWin = _interopRequireDefault(require("../images/minesweeper-win.png"));
+
+var _minesweeperLose = _interopRequireDefault(require("../images/minesweeper-lose.png"));
+
+var _minesweeperAlive = _interopRequireDefault(require("../images/minesweeper-alive.png"));
+
+var _minesweeperSurprised = _interopRequireDefault(require("../images/minesweeper-surprised.png"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var NewGameButton = function NewGameButton(props) {
+  var state = props.state;
+
+  var button = function button(state) {
+    if (state === 'win') {
+      return _react.default.createElement("img", {
+        src: _minesweeperWin.default,
+        style: {
+          width: "24px",
+          position: "relative",
+          right: "2px",
+          top: "2px"
+        }
+      });
+    } else if (state === 'lose') {
+      return _react.default.createElement("img", {
+        src: _minesweeperLose.default,
+        style: {
+          width: "24px",
+          position: "relative",
+          right: "2px",
+          top: "2px"
+        }
+      });
+    } else if (state === 'clicked') {
+      return _react.default.createElement("img", {
+        src: _minesweeperSurprised.default,
+        style: {
+          width: "24px",
+          position: "relative",
+          right: "2px",
+          top: "2px"
+        }
+      });
+    } else {
+      return _react.default.createElement("img", {
+        src: _minesweeperAlive.default,
+        style: {
+          width: "24px",
+          position: "relative",
+          right: "2px",
+          top: "2px"
+        }
+      });
+    }
+  };
+
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement("button", {
     className: "new-game",
-    onClick: props.handleClick
-  }, ":)"));
+    onClick: props.handleTimerClick
+  }, button(state)));
 };
 
 var _default = NewGameButton;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js"}],"components/Header.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","../images/minesweeper-win.png":"images/minesweeper-win.png","../images/minesweeper-lose.png":"images/minesweeper-lose.png","../images/minesweeper-alive.png":"images/minesweeper-alive.png","../images/minesweeper-surprised.png":"images/minesweeper-surprised.png"}],"components/Header.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28186,91 +28256,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var Header = function Header(props) {
+  var pad = function pad(str) {
+    str = str.toString();
+    return str.length < 3 ? pad("0" + str, 3) : str;
+  };
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-var Header =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(Header, _Component);
-
-  function Header(props) {
-    var _this;
-
-    _classCallCheck(this, Header);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, props));
-    _this.state = {
-      time: '000'
-    };
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(Header, [{
-    key: "handleClick",
-    value: function handleClick() {
-      var _this2 = this;
-
-      clearInterval(this.timer);
-
-      var pad = function pad(str) {
-        str = str.toString();
-        return str.length < 3 ? pad("0" + str, 3) : str;
-      };
-
-      var increment = function increment() {
-        if (+_this2.state.time < 999) {
-          _this2.setState({
-            time: pad(+_this2.state.time + 1)
-          });
-        } else {
-          clearInterval(_this2.timer);
-        }
-      };
-
-      this.timer = setInterval(function () {
-        increment();
-      }, 1000);
-      this.setState({
-        time: '000'
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var pad = function pad(str) {
-        str = str.toString();
-        return str.length < 3 ? pad("0" + str, 3) : str;
-      };
-
-      return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_MineCount.default, {
-        mines: pad(this.props.mines)
-      }), _react.default.createElement(_NewGameButton.default, {
-        handleClick: this.handleClick
-      }), _react.default.createElement(_Timer.default, {
-        time: this.state.time
-      }));
-    }
-  }]);
-
-  return Header;
-}(_react.Component);
+  return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_MineCount.default, {
+    mines: pad(props.mines)
+  }), _react.default.createElement(_NewGameButton.default, {
+    handleTimerClick: props.handleTimerClick,
+    state: props.state
+  }), _react.default.createElement(_Timer.default, {
+    time: props.time
+  }));
+};
 
 var _default = Header;
 exports.default = _default;
@@ -28323,10 +28323,12 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.state = {
       mines: 10,
+      time: '000',
       boardSize: 9,
-      gameStarted: false
+      gameState: 'alive' // this.handleClick = this.handleClick.bind(this);
+
     };
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleTimerClick = _this.handleTimerClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -28338,22 +28340,52 @@ function (_Component) {
       });
     }
   }, {
-    key: "handleClick",
-    value: function handleClick(e) {
-      this.setBoardSize(e.target.value);
-    }
+    key: "handleTimerClick",
+    value: function handleTimerClick() {
+      var _this2 = this;
+
+      clearInterval(this.timer);
+
+      var pad = function pad(str) {
+        str = str.toString();
+        return str.length < 3 ? pad("0" + str, 3) : str;
+      };
+
+      var increment = function increment() {
+        if (+_this2.state.time < 999) {
+          _this2.setState({
+            time: pad(+_this2.state.time + 1)
+          });
+        } else {
+          clearInterval(_this2.timer);
+        }
+      };
+
+      this.timer = setInterval(function () {
+        increment();
+      }, 1000);
+      this.setState({
+        time: '000'
+      });
+    } // handleClick(e) {
+    //   this.setBoardSize(e.target.value);
+    // }
+
   }, {
     key: "render",
     value: function render() {
       // Create gameStarted state to manage when timer should tick
       var _this$state = this.state,
+          time = _this$state.time,
           mines = _this$state.mines,
           boardSize = _this$state.boardSize,
-          gameStarted = _this$state.gameStarted;
+          gameState = _this$state.gameState;
       return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_Header.default, {
         mines: mines,
         handleClick: this.handleClick,
-        game: gameStarted
+        handleTimerClick: this.handleTimerClick,
+        state: gameState,
+        time: time
       }), _react.default.createElement(_Board.default, {
         mines: mines,
         boardSize: boardSize

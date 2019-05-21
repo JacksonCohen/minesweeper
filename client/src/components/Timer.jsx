@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 const Timer = (props) => {
   return (
-    <Fragment>
+    <div className="timer-container">
       <div className="timer">
         {props.time}
       </div>
-    </Fragment>
+    </div>
   );
 }
 

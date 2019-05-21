@@ -24,11 +24,15 @@ class Board extends Component {
     return board;
   }
    
+  handleClick() {
+
+  }
+
   renderSquare(i, j) {
     return (
       <Square
         value={this.state.board[i][j]}
-        // onClick={this.props.handleClick(i)}
+        onClick={this.handleClick(i)}
       />
     );
   }

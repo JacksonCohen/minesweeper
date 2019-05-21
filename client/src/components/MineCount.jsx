@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 const MineCount = (props) => {
   return (
-    <Fragment>
+    <div className="mine-count-container">
       <div className="mine-count">{props.mines}</div>
-    </Fragment>
+    </div>
   );
 }
 

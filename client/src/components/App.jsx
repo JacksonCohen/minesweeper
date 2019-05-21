@@ -8,11 +8,12 @@ class App extends Component {
 
     this.state = {
       mines: 10,
+      time: '000',
       boardSize: 9,
-      gameStarted: false
-    }
+      gameState: 'alive'    }
 
-    this.handleClick = this.handleClick.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
+    this.handleTimerClick = this.handleTimerClick.bind(this);
   }
 
   setBoardSize(size) {
@@ -21,17 +22,42 @@ class App extends Component {
     });
   }
 
-  handleClick(e) {
-    this.setBoardSize(e.target.value);
+  handleTimerClick() {
+    clearInterval(this.timer);
+
+    const pad = (str) => {
+      str = str.toString();
+      return str.length < 3 ? pad("0" + str, 3) : str;
+    }
+
+    const increment = () => {
+      if (+this.state.time < 999) {
+        this.setState({
+          time: pad(+this.state.time + 1)
+        });
+      } else {
+        clearInterval(this.timer);
+      }
+    }
+
+    this.timer = setInterval(() => { increment() }, 1000);
+    
+    this.setState({
+      time: '000'
+    });
   }
+
+  // handleClick(e) {
+  //   this.setBoardSize(e.target.value);
+  // }
 
   render() {
     // Create gameStarted state to manage when timer should tick
-    const { mines, boardSize, gameStarted } = this.state; 
+    const { time, mines, boardSize, gameState } = this.state; 
 
     return (
       <Fragment>
-        <Header mines={mines} handleClick={this.handleClick} game={gameStarted} />
+        <Header mines={mines} handleClick={this.handleClick} handleTimerClick={this.handleTimerClick} state={gameState} time={time} />
         <Board mines={mines} boardSize={boardSize} />
       </Fragment>
     );
