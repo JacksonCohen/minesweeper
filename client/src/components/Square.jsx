@@ -7,6 +7,7 @@ import five from '../images/five.png';
 import six from '../images/six.png';
 import seven from '../images/seven.png';
 import eight from '../images/eight.png';
+import flag from '../images/flag.png';
 import mine from '../images/unclicked-mine.png';
 import clickedMine from '../images/clicked-mine.png';
 
@@ -29,18 +30,13 @@ class Square extends Component {
     });
   }
 
-  handleRightClick() {
+  handleRightClick(e) {
     const square = document.getElementsByClassName(`square${this.props.count}`);
-    const allSquares = document.getElementsByClassName('square');
-    
-    for (let i = 0; i < allSquares.length; i++) {
-      allSquares[i].addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        console.log(square[0])
-        square[0].style.border = "4px solid #7B7B7B";
-        return false;
-      }, false);
-    }
+    square[0].style.background = `url(${flag}) 3px 3px`;
+    square[0].style.backgroundRepeat = "no-repeat";
+    square[0].style.backgroundSize = "18px 18px";
+
+    e.preventDefault();
   }
 
   convertValue() {
@@ -74,7 +70,7 @@ class Square extends Component {
     }
 
     return (
-      <button className={`square square${this.props.count} unselectable`} onClick={() => { this.handleClick() }} onContextMenu={this.handleRightClick}>
+      <button className={`square square${this.props.count} unselectable`} onClick={this.handleClick} onContextMenu={(e) => { this.handleRightClick(e) }}>
         {this.state.clicked ? this.convertValue() : null}
       </button>
     );

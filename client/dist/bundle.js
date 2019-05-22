@@ -27900,6 +27900,8 @@ module.exports = "/six.04897191.png";
 module.exports = "/seven.34dc1dbe.png";
 },{}],"images/eight.png":[function(require,module,exports) {
 module.exports = "/eight.51959108.png";
+},{}],"images/flag.png":[function(require,module,exports) {
+module.exports = "/flag.c8217d48.png";
 },{}],"images/unclicked-mine.png":[function(require,module,exports) {
 module.exports = "/unclicked-mine.dbc8e64b.png";
 },{}],"images/clicked-mine.png":[function(require,module,exports) {
@@ -27929,6 +27931,8 @@ var _six = _interopRequireDefault(require("../images/six.png"));
 var _seven = _interopRequireDefault(require("../images/seven.png"));
 
 var _eight = _interopRequireDefault(require("../images/eight.png"));
+
+var _flag = _interopRequireDefault(require("../images/flag.png"));
 
 var _unclickedMine = _interopRequireDefault(require("../images/unclicked-mine.png"));
 
@@ -27985,18 +27989,12 @@ function (_Component) {
     }
   }, {
     key: "handleRightClick",
-    value: function handleRightClick() {
+    value: function handleRightClick(e) {
       var square = document.getElementsByClassName("square".concat(this.props.count));
-      var allSquares = document.getElementsByClassName('square');
-
-      for (var i = 0; i < allSquares.length; i++) {
-        allSquares[i].addEventListener('contextmenu', function (e) {
-          e.preventDefault();
-          console.log(square[0]);
-          square[0].style.border = "4px solid #7B7B7B";
-          return false;
-        }, false);
-      }
+      square[0].style.background = "url(".concat(_flag.default, ") 3px 3px");
+      square[0].style.backgroundRepeat = "no-repeat";
+      square[0].style.backgroundSize = "18px 18px";
+      e.preventDefault();
     }
   }, {
     key: "convertValue",
@@ -28068,10 +28066,10 @@ function (_Component) {
 
       return _react.default.createElement("button", {
         className: "square square".concat(this.props.count, " unselectable"),
-        onClick: function onClick() {
-          _this2.handleClick();
-        },
-        onContextMenu: this.handleRightClick
+        onClick: this.handleClick,
+        onContextMenu: function onContextMenu(e) {
+          _this2.handleRightClick(e);
+        }
       }, this.state.clicked ? this.convertValue() : null);
     }
   }]);
@@ -28081,7 +28079,7 @@ function (_Component) {
 
 var _default = Square;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","../images/one.png":"images/one.png","../images/two.png":"images/two.png","../images/three.png":"images/three.png","../images/four.png":"images/four.png","../images/five.png":"images/five.png","../images/six.png":"images/six.png","../images/seven.png":"images/seven.png","../images/eight.png":"images/eight.png","../images/unclicked-mine.png":"images/unclicked-mine.png","../images/clicked-mine.png":"images/clicked-mine.png"}],"components/Board.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","../images/one.png":"images/one.png","../images/two.png":"images/two.png","../images/three.png":"images/three.png","../images/four.png":"images/four.png","../images/five.png":"images/five.png","../images/six.png":"images/six.png","../images/seven.png":"images/seven.png","../images/eight.png":"images/eight.png","../images/flag.png":"images/flag.png","../images/unclicked-mine.png":"images/unclicked-mine.png","../images/clicked-mine.png":"images/clicked-mine.png"}],"components/Board.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
