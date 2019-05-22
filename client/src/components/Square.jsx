@@ -25,12 +25,33 @@ class Square extends Component {
     this.handleRightClick = this.handleRightClick.bind(this);
   }
 
+  checkNeighbors(e) {
+    const { board } = this.props;
+    
+    if (e.target.value === null) {
+      for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board.length; j++) {
+          if (board[i][j] === null) {
+            checkNeighbors(board[i][j]);
+          }
+        }
+      }
+    }
+  }
+  /*
+  Is not adjacent to a mine, the square is blank and should behave as if the 8 adjacent squares were also clicked. For each of those squares, their neighboring squares continue to be revealed in each direction (i.e., this step is applied recursively to all neighboring squares) until the edge of the board is reached or until a square is reached that is adjacent to a mine, in which case the previous rule applies.
+  */
+
   handleClick() {
     if (!this.state.rightClicked) {
       this.setState({
         clicked: true
       });
     }
+    if (!+this.props.time) {
+      this.props.handleTimerClick();
+    }
+    this.props.handleSquareClick(this.props.value);
   }
 
   handleRightClick(e) {
@@ -39,7 +60,7 @@ class Square extends Component {
     } else {
       this.props.decrement();
     }
-    
+
     this.setState({
       rightClicked: !this.state.rightClicked
     });
@@ -83,7 +104,7 @@ class Square extends Component {
     }
 
     return (
-      <button className={`square square${this.props.count} unselectable`} onClick={this.handleClick} onContextMenu={(e) => { this.handleRightClick(e) }}>
+      <button className={`square square${this.props.count} unselectable`} onClick={(e) => { this.handleClick(e) }} onContextMenu={(e) => { this.handleRightClick(e) }}>
         {this.state.clicked ? this.convertValue() : null}
       </button>
     );

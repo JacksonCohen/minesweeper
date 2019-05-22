@@ -21,7 +21,7 @@ const NewGameButton = (props) => {
 
   return (
     <Fragment>
-      <button className="new-game unselectable" onClick={props.handleTimerClick}>{button(state)}</button>
+      <button className="new-game unselectable" onClick={null}>{button(state)}</button>
     </Fragment>
   );
 }

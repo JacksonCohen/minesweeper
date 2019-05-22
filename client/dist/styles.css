@@ -66,14 +66,11 @@
 }
 
 .new-game {
-  /* display: flex; */
   position: relative; 
   height: 36px;
   width: 36px;
   border-left-color: rgba(255, 255, 255);
   border-top-color: rgba(255, 255, 255);
-  /* border-right-color: #7B7B7B; */
-  /* border-bottom-color: #7B7B7B; */
   border-width: 3px;
   margin-left: 30px;
   margin-right: 30px;
@@ -88,8 +85,6 @@
   margin: 0;
   border-left-color: rgb(255, 255, 255);
   border-top-color: rgba(255, 255, 255);
-  /* border-right-color: #7B7B7B; */
-  /* border-bottom-color: #7B7B7B; */
   border-width: 3px;
   background-color: #BDBDBD;
   font-size: 12px;

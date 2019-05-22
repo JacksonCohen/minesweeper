@@ -27982,6 +27982,35 @@ function (_Component) {
   }
 
   _createClass(Square, [{
+    key: "checkNeighbors",
+    value: function (_checkNeighbors) {
+      function checkNeighbors(_x) {
+        return _checkNeighbors.apply(this, arguments);
+      }
+
+      checkNeighbors.toString = function () {
+        return _checkNeighbors.toString();
+      };
+
+      return checkNeighbors;
+    }(function (e) {
+      var board = this.props.board;
+
+      if (e.target.value === null) {
+        for (var i = 0; i < board.length; i++) {
+          for (var j = 0; j < board.length; j++) {
+            if (board[i][j] === null) {
+              checkNeighbors(board[i][j]);
+            }
+          }
+        }
+      }
+    })
+    /*
+    Is not adjacent to a mine, the square is blank and should behave as if the 8 adjacent squares were also clicked. For each of those squares, their neighboring squares continue to be revealed in each direction (i.e., this step is applied recursively to all neighboring squares) until the edge of the board is reached or until a square is reached that is adjacent to a mine, in which case the previous rule applies.
+    */
+
+  }, {
     key: "handleClick",
     value: function handleClick() {
       if (!this.state.rightClicked) {
@@ -27989,6 +28018,12 @@ function (_Component) {
           clicked: true
         });
       }
+
+      if (!+this.props.time) {
+        this.props.handleTimerClick();
+      }
+
+      this.props.handleSquareClick(this.props.value);
     }
   }, {
     key: "handleRightClick",
@@ -28000,7 +28035,7 @@ function (_Component) {
       }
 
       this.setState({
-        rightClicked: true
+        rightClicked: !this.state.rightClicked
       });
       var square = document.getElementsByClassName("square".concat(this.props.count));
       square[0].style.background = "url(".concat(_flag.default, ") 3px 3px");
@@ -28078,7 +28113,9 @@ function (_Component) {
 
       return _react.default.createElement("button", {
         className: "square square".concat(this.props.count, " unselectable"),
-        onClick: this.handleClick,
+        onClick: function onClick(e) {
+          _this2.handleClick(e);
+        },
         onContextMenu: function onContextMenu(e) {
           _this2.handleRightClick(e);
         }
@@ -28157,6 +28194,7 @@ function (_Component) {
         }
 
         board.push(_react.default.createElement("div", {
+          key: count,
           className: "row"
         }, [].concat(row)));
       }
@@ -28164,32 +28202,32 @@ function (_Component) {
       return board;
     }
   }, {
-    key: "handleClick",
-    value: function handleClick() {}
-  }, {
     key: "renderSquare",
     value: function renderSquare(i, j, count) {
-      var _this = this;
-
+      var board = this.state.board;
+      var _this$props = this.props,
+          time = _this$props.time,
+          increment = _this$props.increment,
+          decrement = _this$props.decrement,
+          handleSquareClick = _this$props.handleSquareClick,
+          handleTimerClick = _this$props.handleTimerClick;
       return _react.default.createElement(_Square.default // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
       , {
-        increment: this.props.increment,
-        decrement: this.props.decrement,
-        value: this.state.board[i][j],
+        key: count,
+        time: time,
         count: count,
-        onClick: function onClick() {
-          _this.handleClick(i);
-
-          _this.props.handleSquareClick();
-
-          _this.props.handleTimerClick();
-        }
+        board: board,
+        value: board[i][j],
+        increment: increment,
+        decrement: decrement,
+        handleTimerClick: handleTimerClick,
+        handleSquareClick: handleSquareClick
       });
     }
   }, {
     key: "updateBoard",
     value: function updateBoard(size) {
-      var _this2 = this;
+      var _this = this;
 
       var board = [];
 
@@ -28206,20 +28244,20 @@ function (_Component) {
       this.setState({
         board: board
       }, function () {
-        _this2.placeMines();
+        _this.placeMines();
 
-        _this2.placeNumbers();
+        _this.placeNumbers();
 
-        console.table(_this2.state.board);
+        console.table(_this.state.board);
       });
     }
   }, {
     key: "placeMines",
     value: function placeMines() {
       var minesObject = {};
-      var _this$props = this.props,
-          mines = _this$props.mines,
-          boardSize = _this$props.boardSize;
+      var _this$props2 = this.props,
+          mines = _this$props2.mines,
+          boardSize = _this$props2.boardSize;
       var board = this.state.board;
 
       while (Object.keys(minesObject).length < mines) {
@@ -28297,64 +28335,6 @@ function (_Component) {
         }
       }
     }
-  }, {
-    key: "checkNeighbors",
-    value: function checkNeighbors(e) {
-      var board = this.state.board;
-      var noNull = false;
-
-      if (e.target.value === null) {
-        while (!noNull) {
-          for (var i = 0; i < board.length; i++) {
-            for (var j = 0; j < board[i].length; j++) {
-              if (board[i][j] === 'MINE') {
-                continue;
-              }
-
-              if (board[i][j + 1] === 'MINE') {
-                count++;
-              }
-
-              if (board[i][j - 1] === 'MINE') {
-                count++;
-              }
-
-              if (board[i + 1]) {
-                if (board[i + 1][j] === 'MINE') {
-                  count++;
-                }
-
-                if (board[i + 1][j - 1] === 'MINE') {
-                  count++;
-                }
-
-                if (board[i + 1][j + 1] === 'MINE') {
-                  count++;
-                }
-              }
-
-              if (board[i - 1]) {
-                if (board[i - 1][j] === 'MINE') {
-                  count++;
-                }
-
-                if (board[i - 1][j - 1] === 'MINE') {
-                  count++;
-                }
-
-                if (board[i - 1][j + 1] === 'MINE') {
-                  count++;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    /*
-    Is not adjacent to a mine, the square is blank and should behave as if the 8 adjacent squares were also clicked. For each of those squares, their neighboring squares continue to be revealed in each direction (i.e., this step is applied recursively to all neighboring squares) until the edge of the board is reached or until a square is reached that is adjacent to a mine, in which case the previous rule applies.
-    */
-
   }, {
     key: "render",
     value: function render() {
@@ -28472,7 +28452,7 @@ var NewGameButton = function NewGameButton(props) {
 
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement("button", {
     className: "new-game unselectable",
-    onClick: props.handleTimerClick
+    onClick: null
   }, button(state)));
 };
 
@@ -28502,7 +28482,6 @@ var Header = function Header(props) {
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_MineCount.default, {
     mines: props.pad(props.mines)
   }), _react.default.createElement(_NewGameButton.default, {
-    handleTimerClick: props.handleTimerClick,
     state: props.state
   }), _react.default.createElement(_Timer.default, {
     time: props.time
@@ -28570,18 +28549,14 @@ function (_Component) {
     _this.incrementMineCount = _this.incrementMineCount.bind(_assertThisInitialized(_this));
     _this.decrementMineCount = _this.decrementMineCount.bind(_assertThisInitialized(_this));
     return _this;
-  } // setBoardSize(size) {
-  //   this.setState({
-  //     boardSize: size
-  //   });
-  // }
-
+  }
 
   _createClass(App, [{
     key: "pad",
     value: function pad(str) {
+      var num = +str;
       str = str.toString();
-      return str.length < 3 ? this.pad("0" + str) : str;
+      return str.length === 3 ? str : num < 0 ? this.pad("-0" + Math.abs(str)) : this.pad("0" + str);
     }
   }, {
     key: "handleTimerClick",
@@ -28607,15 +28582,23 @@ function (_Component) {
         time: '000'
       });
     } // handleClick(e) {
-    //   this.setBoardSize(e.target.value);
+    //   this.setState({
+    //     boardSize: e.target.value
+    //   });
     // }
 
   }, {
     key: "handleSquareClick",
-    value: function handleSquareClick(e) {
-      this.setState({
-        gameState: 'clicked'
-      });
+    value: function handleSquareClick(value) {
+      if (value === 'MINE') {
+        this.setState({
+          gameState: 'lose'
+        });
+      } else {
+        this.setState({
+          gameState: 'clicked'
+        });
+      }
     }
   }, {
     key: "incrementMineCount",
@@ -28646,7 +28629,6 @@ function (_Component) {
       }, _react.default.createElement(_Header.default, {
         mines: mines,
         handleClick: this.handleClick,
-        handleTimerClick: this.handleTimerClick,
         state: gameState,
         time: time,
         pad: this.pad
@@ -28655,6 +28637,8 @@ function (_Component) {
       }, _react.default.createElement(_Board.default, {
         mines: mines,
         boardSize: boardSize,
+        time: time,
+        handleTimerClick: this.handleTimerClick,
         handleSquareClick: this.handleSquareClick,
         increment: this.incrementMineCount,
         decrement: this.decrementMineCount
@@ -28707,7 +28691,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51576" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55818" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -7,7 +7,7 @@ const Header = (props) => {
   return (
     <Fragment>
       <MineCount mines={props.pad(props.mines)} />
-      <NewGameButton handleTimerClick={props.handleTimerClick} state={props.state} />
+      <NewGameButton state={props.state} />
       <Timer time={props.time} />
     </Fragment>
   );
