@@ -43,29 +43,33 @@ class Square extends Component {
   */
 
   handleClick() {
+    const { value, gameStarted, handleTimerClick, handleSquareClick } = this.props;
+
     if (!this.state.rightClicked) {
       this.setState({
         clicked: true
       });
     }
-    if (!+this.props.time) {
-      this.props.handleTimerClick();
+    if (gameStarted === false) {
+      handleTimerClick();
     }
-    this.props.handleSquareClick(this.props.value);
+    handleSquareClick(value);
   }
 
   handleRightClick(e) {
+    const { count, increment, decrement } = this.props;
+
     if (this.state.rightClicked) {
-      this.props.increment();
+      increment();
     } else {
-      this.props.decrement();
+      decrement();
     }
 
     this.setState({
       rightClicked: !this.state.rightClicked
     });
 
-    const square = document.getElementsByClassName(`square${this.props.count}`);
+    const square = document.getElementsByClassName(`square${count}`);
     square[0].style.background = `url(${flag}) 3px 3px`;
     square[0].style.backgroundRepeat = "no-repeat";
     square[0].style.backgroundSize = "18px 18px";

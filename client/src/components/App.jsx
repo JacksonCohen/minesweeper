@@ -10,7 +10,8 @@ class App extends Component {
       mines: 10,
       boardSize: 9,
       time: '000',
-      gameState: 'alive'
+      gameState: 'alive',
+      gameStarted: false
     }
 
     this.pad = this.pad.bind(this);
@@ -27,8 +28,12 @@ class App extends Component {
     return str.length === 3 ? str : num < 0 ? this.pad("-0" + Math.abs(str)) : this.pad("0" + str);
   }
 
+  stopTimer() {
+    return clearInterval(this.timer);
+  }
+
   handleTimerClick() {
-    clearInterval(this.timer);
+    this.stopTimer();
 
     const increment = () => {
       if (+this.state.time < 999) {
@@ -58,9 +63,11 @@ class App extends Component {
       this.setState({
         gameState: 'lose'
       });
+      this.stopTimer();
     } else {
       this.setState({
-        gameState: 'clicked'
+        gameState: 'clicked',
+        gameStarted: true
       });
     }
   }
@@ -78,7 +85,7 @@ class App extends Component {
   }
 
   render() {
-    const { time, mines, boardSize, gameState } = this.state; 
+    const { time, mines, boardSize, gameState, gameStarted } = this.state; 
 
     return (
       <div id="game">
@@ -86,7 +93,7 @@ class App extends Component {
           <Header mines={mines} handleClick={this.handleClick} state={gameState} time={time} pad={this.pad} />
         </div>
         <div id="squares-container">
-          <Board mines={mines} boardSize={boardSize} time={time} handleTimerClick={this.handleTimerClick} handleSquareClick={this.handleSquareClick} increment={this.incrementMineCount} decrement={this.decrementMineCount} />
+          <Board mines={mines} boardSize={boardSize} gameStarted={gameStarted} handleTimerClick={this.handleTimerClick} handleSquareClick={this.handleSquareClick} increment={this.incrementMineCount} decrement={this.decrementMineCount} stopTimer={this.stopTimer} />
         </div>
       </div>
     );

@@ -28013,31 +28013,42 @@ function (_Component) {
   }, {
     key: "handleClick",
     value: function handleClick() {
+      var _this$props = this.props,
+          value = _this$props.value,
+          gameStarted = _this$props.gameStarted,
+          handleTimerClick = _this$props.handleTimerClick,
+          handleSquareClick = _this$props.handleSquareClick;
+
       if (!this.state.rightClicked) {
         this.setState({
           clicked: true
         });
       }
 
-      if (!+this.props.time) {
-        this.props.handleTimerClick();
+      if (gameStarted === false) {
+        handleTimerClick();
       }
 
-      this.props.handleSquareClick(this.props.value);
+      handleSquareClick(value);
     }
   }, {
     key: "handleRightClick",
     value: function handleRightClick(e) {
+      var _this$props2 = this.props,
+          count = _this$props2.count,
+          increment = _this$props2.increment,
+          decrement = _this$props2.decrement;
+
       if (this.state.rightClicked) {
-        this.props.increment();
+        increment();
       } else {
-        this.props.decrement();
+        decrement();
       }
 
       this.setState({
         rightClicked: !this.state.rightClicked
       });
-      var square = document.getElementsByClassName("square".concat(this.props.count));
+      var square = document.getElementsByClassName("square".concat(count));
       square[0].style.background = "url(".concat(_flag.default, ") 3px 3px");
       square[0].style.backgroundRepeat = "no-repeat";
       square[0].style.backgroundSize = "18px 18px";
@@ -28206,7 +28217,7 @@ function (_Component) {
     value: function renderSquare(i, j, count) {
       var board = this.state.board;
       var _this$props = this.props,
-          time = _this$props.time,
+          gameStarted = _this$props.gameStarted,
           increment = _this$props.increment,
           decrement = _this$props.decrement,
           handleSquareClick = _this$props.handleSquareClick,
@@ -28214,12 +28225,12 @@ function (_Component) {
       return _react.default.createElement(_Square.default // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
       , {
         key: count,
-        time: time,
         count: count,
         board: board,
         value: board[i][j],
         increment: increment,
         decrement: decrement,
+        gameStarted: gameStarted,
         handleTimerClick: handleTimerClick,
         handleSquareClick: handleSquareClick
       });
@@ -28541,7 +28552,8 @@ function (_Component) {
       mines: 10,
       boardSize: 9,
       time: '000',
-      gameState: 'alive'
+      gameState: 'alive',
+      gameStarted: false
     };
     _this.pad = _this.pad.bind(_assertThisInitialized(_this));
     _this.handleTimerClick = _this.handleTimerClick.bind(_assertThisInitialized(_this));
@@ -28559,11 +28571,16 @@ function (_Component) {
       return str.length === 3 ? str : num < 0 ? this.pad("-0" + Math.abs(str)) : this.pad("0" + str);
     }
   }, {
+    key: "stopTimer",
+    value: function stopTimer() {
+      return clearInterval(this.timer);
+    }
+  }, {
     key: "handleTimerClick",
     value: function handleTimerClick() {
       var _this2 = this;
 
-      clearInterval(this.timer);
+      this.stopTimer();
 
       var increment = function increment() {
         if (+_this2.state.time < 999) {
@@ -28594,9 +28611,11 @@ function (_Component) {
         this.setState({
           gameState: 'lose'
         });
+        this.stopTimer();
       } else {
         this.setState({
-          gameState: 'clicked'
+          gameState: 'clicked',
+          gameStarted: true
         });
       }
     }
@@ -28621,7 +28640,8 @@ function (_Component) {
           time = _this$state.time,
           mines = _this$state.mines,
           boardSize = _this$state.boardSize,
-          gameState = _this$state.gameState;
+          gameState = _this$state.gameState,
+          gameStarted = _this$state.gameStarted;
       return _react.default.createElement("div", {
         id: "game"
       }, _react.default.createElement("div", {
@@ -28637,11 +28657,12 @@ function (_Component) {
       }, _react.default.createElement(_Board.default, {
         mines: mines,
         boardSize: boardSize,
-        time: time,
+        gameStarted: gameStarted,
         handleTimerClick: this.handleTimerClick,
         handleSquareClick: this.handleSquareClick,
         increment: this.incrementMineCount,
-        decrement: this.decrementMineCount
+        decrement: this.decrementMineCount,
+        stopTimer: this.stopTimer
       })));
     }
   }]);

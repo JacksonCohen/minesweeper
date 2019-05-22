@@ -28,18 +28,18 @@ class Board extends Component {
 
   renderSquare(i, j, count) {
     const { board } = this.state;
-    const { time, increment, decrement, handleSquareClick, handleTimerClick } = this.props;
+    const { gameStarted, increment, decrement, handleSquareClick, handleTimerClick } = this.props;
 
     return (
       <Square
       // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
         key={count}
-        time={time}
         count={count}
         board={board}
         value={board[i][j]}
         increment={increment}
         decrement={decrement}
+        gameStarted={gameStarted}
         handleTimerClick={handleTimerClick}
         handleSquareClick={handleSquareClick}
       />
