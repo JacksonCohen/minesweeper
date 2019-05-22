@@ -36,9 +36,7 @@ class Board extends Component {
       // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
         value={this.state.board[i][j]}
         count={count}
-        // onClick={this.props.handleSquareClick()}
-        // onClick={this.props.handleTimerClick()}
-        onClick={this.handleClick(i)}
+        onClick={() => { this.handleClick(i); this.props.handleSquareClick(); this.props.handleTimerClick(); }}
       />
     );
   }
@@ -54,7 +52,7 @@ class Board extends Component {
       board.push(innerArray);
     }
 
-    this.setState({ board }, () => { this.placeMines(), this.placeNumbers(), console.table(this.state.board) });
+    this.setState({ board }, () => { this.placeMines(); this.placeNumbers(); console.table(this.state.board); });
   }
 
   placeMines() {

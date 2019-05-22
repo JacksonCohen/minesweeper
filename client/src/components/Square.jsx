@@ -20,12 +20,27 @@ class Square extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.convertValue = this.convertValue.bind(this);
+    this.handleRightClick = this.handleRightClick.bind(this);
   }
 
   handleClick() {
     this.setState({
       clicked: true
     });
+  }
+
+  handleRightClick() {
+    const square = document.getElementsByClassName(`square${this.props.count}`);
+    const allSquares = document.getElementsByClassName('square');
+    
+    for (let i = 0; i < allSquares.length; i++) {
+      allSquares[i].addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        console.log(square[0])
+        square[0].style.border = "4px solid #7B7B7B";
+        return false;
+      }, false);
+    }
   }
 
   convertValue() {
@@ -53,14 +68,13 @@ class Square extends Component {
   }
 
   render() {
-    const square = document.getElementsByClassName(`square${this.props.count} unselectable`);
+    const square = document.getElementsByClassName(`square${this.props.count}`);
     if (this.state.clicked) {
       square[0].style.border = "1px solid #7B7B7B";
-      // square[0].style.borderStyle = "outset";
     }
 
     return (
-      <button className={`square square${this.props.count} unselectable`} onClick={this.handleClick} >
+      <button className={`square square${this.props.count} unselectable`} onClick={() => { this.handleClick() }} onContextMenu={this.handleRightClick}>
         {this.state.clicked ? this.convertValue() : null}
       </button>
     );

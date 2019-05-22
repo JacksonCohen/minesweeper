@@ -27972,6 +27972,7 @@ function (_Component) {
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     _this.convertValue = _this.convertValue.bind(_assertThisInitialized(_this));
+    _this.handleRightClick = _this.handleRightClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -27981,6 +27982,21 @@ function (_Component) {
       this.setState({
         clicked: true
       });
+    }
+  }, {
+    key: "handleRightClick",
+    value: function handleRightClick() {
+      var square = document.getElementsByClassName("square".concat(this.props.count));
+      var allSquares = document.getElementsByClassName('square');
+
+      for (var i = 0; i < allSquares.length; i++) {
+        allSquares[i].addEventListener('contextmenu', function (e) {
+          e.preventDefault();
+          console.log(square[0]);
+          square[0].style.border = "4px solid #7B7B7B";
+          return false;
+        }, false);
+      }
     }
   }, {
     key: "convertValue",
@@ -28042,15 +28058,20 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var square = document.getElementsByClassName("square".concat(this.props.count, " unselectable"));
+      var _this2 = this;
+
+      var square = document.getElementsByClassName("square".concat(this.props.count));
 
       if (this.state.clicked) {
-        square[0].style.border = "1px solid #7B7B7B"; // square[0].style.borderStyle = "outset";
+        square[0].style.border = "1px solid #7B7B7B";
       }
 
       return _react.default.createElement("button", {
         className: "square square".concat(this.props.count, " unselectable"),
-        onClick: this.handleClick
+        onClick: function onClick() {
+          _this2.handleClick();
+        },
+        onContextMenu: this.handleRightClick
       }, this.state.clicked ? this.convertValue() : null);
     }
   }]);
@@ -28138,19 +28159,25 @@ function (_Component) {
   }, {
     key: "renderSquare",
     value: function renderSquare(i, j, count) {
+      var _this = this;
+
       return _react.default.createElement(_Square.default // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
       , {
         value: this.state.board[i][j],
-        count: count // onClick={this.props.handleSquareClick()}
-        // onClick={this.props.handleTimerClick()}
-        ,
-        onClick: this.handleClick(i)
+        count: count,
+        onClick: function onClick() {
+          _this.handleClick(i);
+
+          _this.props.handleSquareClick();
+
+          _this.props.handleTimerClick();
+        }
       });
     }
   }, {
     key: "updateBoard",
     value: function updateBoard(size) {
-      var _this = this;
+      var _this2 = this;
 
       var board = [];
 
@@ -28167,7 +28194,11 @@ function (_Component) {
       this.setState({
         board: board
       }, function () {
-        _this.placeMines(), _this.placeNumbers(), console.table(_this.state.board);
+        _this2.placeMines();
+
+        _this2.placeNumbers();
+
+        console.table(_this2.state.board);
       });
     }
   }, {
