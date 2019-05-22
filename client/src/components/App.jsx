@@ -27,8 +27,10 @@ class App extends Component {
   // }
 
   pad (str) {
+    let num = +str;
     str = str.toString();
-    return str.length < 3 ? this.pad("0" + str) : str;
+
+    return str.length >= 3 ? str : num < 0 ? this.pad("-0" + Math.abs(str)) : this.pad("0" + str);
   }
 
   handleTimerClick() {

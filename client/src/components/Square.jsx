@@ -41,7 +41,7 @@ class Square extends Component {
     }
     
     this.setState({
-      rightClicked: true
+      rightClicked: !this.state.rightClicked
     });
 
     const square = document.getElementsByClassName(`square${this.props.count}`);
