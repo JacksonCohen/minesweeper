@@ -16,6 +16,8 @@ class App extends Component {
     this.pad = this.pad.bind(this);
     this.handleTimerClick = this.handleTimerClick.bind(this);
     this.handleSquareClick = this.handleSquareClick.bind(this);
+    this.incrementMineCount = this.incrementMineCount.bind(this);
+    this.decrementMineCount = this.decrementMineCount.bind(this);
   }
 
   // setBoardSize(size) {
@@ -59,6 +61,18 @@ class App extends Component {
     });
   }
 
+  incrementMineCount() {
+    this.setState({
+      mines: this.state.mines + 1
+    });
+  }
+
+  decrementMineCount() {
+    this.setState({
+      mines: this.state.mines - 1
+    });
+  }
+
   render() {
     const { time, mines, boardSize, gameState } = this.state; 
 
@@ -68,7 +82,7 @@ class App extends Component {
           <Header mines={mines} handleClick={this.handleClick} handleTimerClick={this.handleTimerClick} state={gameState} time={time} pad={this.pad} />
         </div>
         <div id="squares-container">
-          <Board mines={mines} boardSize={boardSize} handleSquareClick={this.handleSquareClick} />
+          <Board mines={mines} boardSize={boardSize} handleSquareClick={this.handleSquareClick} increment={this.incrementMineCount} decrement={this.decrementMineCount} />
         </div>
       </div>
     );

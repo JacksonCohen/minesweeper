@@ -8,15 +8,16 @@ import six from '../images/six.png';
 import seven from '../images/seven.png';
 import eight from '../images/eight.png';
 import flag from '../images/flag.png';
-import mine from '../images/unclicked-mine.png';
 import clickedMine from '../images/clicked-mine.png';
+import unclickedMine from '../images/unclicked-mine.png';
 
 class Square extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
-      clicked: false
+      clicked: false,
+      rightClicked: false
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -25,12 +26,24 @@ class Square extends Component {
   }
 
   handleClick() {
-    this.setState({
-      clicked: true
-    });
+    if (!this.state.rightClicked) {
+      this.setState({
+        clicked: true
+      });
+    }
   }
 
   handleRightClick(e) {
+    if (this.state.rightClicked) {
+      this.props.increment();
+    } else {
+      this.props.decrement();
+    }
+    
+    this.setState({
+      rightClicked: true
+    });
+
     const square = document.getElementsByClassName(`square${this.props.count}`);
     square[0].style.background = `url(${flag}) 3px 3px`;
     square[0].style.backgroundRepeat = "no-repeat";

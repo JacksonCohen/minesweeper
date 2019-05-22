@@ -27902,10 +27902,10 @@ module.exports = "/seven.34dc1dbe.png";
 module.exports = "/eight.51959108.png";
 },{}],"images/flag.png":[function(require,module,exports) {
 module.exports = "/flag.c8217d48.png";
-},{}],"images/unclicked-mine.png":[function(require,module,exports) {
-module.exports = "/unclicked-mine.dbc8e64b.png";
 },{}],"images/clicked-mine.png":[function(require,module,exports) {
 module.exports = "/clicked-mine.a8dd8e22.png";
+},{}],"images/unclicked-mine.png":[function(require,module,exports) {
+module.exports = "/unclicked-mine.dbc8e64b.png";
 },{}],"components/Square.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -27934,9 +27934,9 @@ var _eight = _interopRequireDefault(require("../images/eight.png"));
 
 var _flag = _interopRequireDefault(require("../images/flag.png"));
 
-var _unclickedMine = _interopRequireDefault(require("../images/unclicked-mine.png"));
-
 var _clickedMine = _interopRequireDefault(require("../images/clicked-mine.png"));
+
+var _unclickedMine = _interopRequireDefault(require("../images/unclicked-mine.png"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27972,7 +27972,8 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Square).call(this, props));
     _this.state = {
-      clicked: false
+      clicked: false,
+      rightClicked: false
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     _this.convertValue = _this.convertValue.bind(_assertThisInitialized(_this));
@@ -27983,13 +27984,24 @@ function (_Component) {
   _createClass(Square, [{
     key: "handleClick",
     value: function handleClick() {
-      this.setState({
-        clicked: true
-      });
+      if (!this.state.rightClicked) {
+        this.setState({
+          clicked: true
+        });
+      }
     }
   }, {
     key: "handleRightClick",
     value: function handleRightClick(e) {
+      if (this.state.rightClicked) {
+        this.props.increment();
+      } else {
+        this.props.decrement();
+      }
+
+      this.setState({
+        rightClicked: true
+      });
       var square = document.getElementsByClassName("square".concat(this.props.count));
       square[0].style.background = "url(".concat(_flag.default, ") 3px 3px");
       square[0].style.backgroundRepeat = "no-repeat";
@@ -28079,7 +28091,7 @@ function (_Component) {
 
 var _default = Square;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","../images/one.png":"images/one.png","../images/two.png":"images/two.png","../images/three.png":"images/three.png","../images/four.png":"images/four.png","../images/five.png":"images/five.png","../images/six.png":"images/six.png","../images/seven.png":"images/seven.png","../images/eight.png":"images/eight.png","../images/flag.png":"images/flag.png","../images/unclicked-mine.png":"images/unclicked-mine.png","../images/clicked-mine.png":"images/clicked-mine.png"}],"components/Board.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","../images/one.png":"images/one.png","../images/two.png":"images/two.png","../images/three.png":"images/three.png","../images/four.png":"images/four.png","../images/five.png":"images/five.png","../images/six.png":"images/six.png","../images/seven.png":"images/seven.png","../images/eight.png":"images/eight.png","../images/flag.png":"images/flag.png","../images/clicked-mine.png":"images/clicked-mine.png","../images/unclicked-mine.png":"images/unclicked-mine.png"}],"components/Board.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28161,6 +28173,8 @@ function (_Component) {
 
       return _react.default.createElement(_Square.default // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
       , {
+        increment: this.props.increment,
+        decrement: this.props.decrement,
         value: this.state.board[i][j],
         count: count,
         onClick: function onClick() {
@@ -28553,6 +28567,8 @@ function (_Component) {
     _this.pad = _this.pad.bind(_assertThisInitialized(_this));
     _this.handleTimerClick = _this.handleTimerClick.bind(_assertThisInitialized(_this));
     _this.handleSquareClick = _this.handleSquareClick.bind(_assertThisInitialized(_this));
+    _this.incrementMineCount = _this.incrementMineCount.bind(_assertThisInitialized(_this));
+    _this.decrementMineCount = _this.decrementMineCount.bind(_assertThisInitialized(_this));
     return _this;
   } // setBoardSize(size) {
   //   this.setState({
@@ -28602,6 +28618,20 @@ function (_Component) {
       });
     }
   }, {
+    key: "incrementMineCount",
+    value: function incrementMineCount() {
+      this.setState({
+        mines: this.state.mines + 1
+      });
+    }
+  }, {
+    key: "decrementMineCount",
+    value: function decrementMineCount() {
+      this.setState({
+        mines: this.state.mines - 1
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$state = this.state,
@@ -28625,7 +28655,9 @@ function (_Component) {
       }, _react.default.createElement(_Board.default, {
         mines: mines,
         boardSize: boardSize,
-        handleSquareClick: this.handleSquareClick
+        handleSquareClick: this.handleSquareClick,
+        increment: this.incrementMineCount,
+        decrement: this.decrementMineCount
       })));
     }
   }]);

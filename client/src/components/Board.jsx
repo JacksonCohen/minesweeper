@@ -34,6 +34,8 @@ class Board extends Component {
     return (
       <Square
       // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
+        increment={this.props.increment}
+        decrement={this.props.decrement}
         value={this.state.board[i][j]}
         count={count}
         onClick={() => { this.handleClick(i); this.props.handleSquareClick(); this.props.handleTimerClick(); }}
