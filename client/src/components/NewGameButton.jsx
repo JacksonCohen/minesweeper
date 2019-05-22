@@ -9,19 +9,19 @@ const NewGameButton = (props) => {
 
   const button = (state) => {
     if (state === 'win') {
-      return <img src={win} style={{width:"24px", position: "relative", right: "3px", top: "2px"}}/>;
+      return <img className="smileys" src={win} />;
     } else if (state === 'lose') {
-      return <img src={lose} style={{width:"24px", position: "relative", right: "3px", top: "2px"}}/>;
+      return <img className="smileys" src={lose} />;
     } else if (state === 'clicked') {
-      return <img src={surprise} style={{width:"24px", position: "relative", right: "3px", top: "2px"}}/>;
+      return <img className="smileys" src={surprise} />;
     } else {
-      return <img src={alive} style={{width:"24px", position: "relative", right: "3px", top: "2px"}}/>;
+      return <img className="smileys" src={alive} />;
     }
   }
 
   return (
     <Fragment>
-      <button className="new-game" onClick={props.handleTimerClick}>{button(state)}</button>
+      <button className="new-game unselectable" onClick={props.handleTimerClick}>{button(state)}</button>
     </Fragment>
   );
 }

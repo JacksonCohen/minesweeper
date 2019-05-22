@@ -13,11 +13,13 @@ class Board extends Component {
   renderBoard() {
     let { boardSize } = this.props;
     let board = [];
+    let count = 0;
 
     for (let i = 0; i < boardSize; i++) {
       let row = [];
       for (let j = 0; j < boardSize; j++) {
-        row.push(this.renderSquare(i, j));
+        count++;
+        row.push(this.renderSquare(i, j, count));
       }
       board.push(<div className="row">{[...row]}</div>);
     }
@@ -28,12 +30,14 @@ class Board extends Component {
 
   }
 
-  renderSquare(i, j) {
+  renderSquare(i, j, count) {
     return (
       <Square
       // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
         value={this.state.board[i][j]}
+        count={count}
         // onClick={this.props.handleSquareClick()}
+        // onClick={this.props.handleTimerClick()}
         onClick={this.handleClick(i)}
       />
     );
@@ -122,6 +126,54 @@ class Board extends Component {
       }
     }
   }
+
+  checkNeighbors(e) {
+    const { board } = this.state;
+    let noNull = false;
+
+    if (e.target.value === null) {
+      while (!noNull) {
+        for (let i = 0; i < board.length; i++) {
+          for (let j = 0; j < board[i].length; j++) {
+            if (board[i][j] === 'MINE') {
+              continue;
+            }
+            if (board[i][j + 1] === 'MINE') {
+              count++;
+            }
+            if (board[i][j - 1] === 'MINE') {
+              count++;
+            }
+            if (board[i + 1]) {
+              if (board[i + 1][j] === 'MINE') {
+                count++;
+              }
+              if (board[i + 1][j - 1] === 'MINE') {
+                count++;
+              }
+              if (board[i + 1][j + 1] === 'MINE') {
+                count++;
+              }
+            }
+            if (board[i - 1]) {
+              if (board[i - 1][j] === 'MINE') {
+                count++;
+              }
+              if (board[i - 1][j - 1] === 'MINE') {
+                count++;
+              }
+              if (board[i - 1][j + 1] === 'MINE') {
+                count++;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  /*
+  Is not adjacent to a mine, the square is blank and should behave as if the 8 adjacent squares were also clicked. For each of those squares, their neighboring squares continue to be revealed in each direction (i.e., this step is applied recursively to all neighboring squares) until the edge of the board is reached or until a square is reached that is adjacent to a mine, in which case the previous rule applies.
+  */
 
   render() {
     return (

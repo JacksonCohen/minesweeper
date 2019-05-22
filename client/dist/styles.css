@@ -11,7 +11,7 @@
   border-bottom-color: #7B7B7B;
 }
 
-#header {
+#header-container {
   background-color: #BDBDBD;
   height: 50px;
   width: 260px;
@@ -26,7 +26,7 @@
   border-top-color: #7B7B7B;
 }
 
-#squares {
+#squares-container {
   width: 270px;
   border: 3px solid;
   border-right-color: rgb(255, 255, 255);
@@ -101,7 +101,6 @@ button:focus {
 
 .square:active {
   border: 0 !important;
-  background-color: #BDBDBD !important;
 }
 
 .new-game:active {
@@ -113,6 +112,27 @@ button:focus {
 .row {
   display: flex;
   height: 30px;
+}
+
+.tiles {
+  width: 20px;
+  position: relative;
+  top: 2px;
+}
+
+.smileys {
+  width: 24px;
+  position: relative;
+  right: 3px;
+  top: 2px;
+}
+
+*.unselectable {
+   -moz-user-select: none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
 }
 
 @font-face {

@@ -26,7 +26,7 @@ class App extends Component {
 
   pad (str) {
     str = str.toString();
-    return str.length < 3 ? this.pad("0" + str, 3) : str;
+    return str.length < 3 ? this.pad("0" + str) : str;
   }
 
   handleTimerClick() {
@@ -60,15 +60,14 @@ class App extends Component {
   }
 
   render() {
-    // Create gameStarted state to manage when timer should tick
     const { time, mines, boardSize, gameState } = this.state; 
 
     return (
       <div id="game">
-        <div id="header">
+        <div id="header-container">
           <Header mines={mines} handleClick={this.handleClick} handleTimerClick={this.handleTimerClick} state={gameState} time={time} pad={this.pad} />
         </div>
-        <div id="squares">
+        <div id="squares-container">
           <Board mines={mines} boardSize={boardSize} handleSquareClick={this.handleSquareClick} />
         </div>
       </div>

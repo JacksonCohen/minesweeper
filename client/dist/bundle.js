@@ -27884,7 +27884,27 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../../../../../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Square.jsx":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../../../../../node_modules/react-dom/cjs/react-dom.development.js"}],"images/one.png":[function(require,module,exports) {
+module.exports = "/one.23f04564.png";
+},{}],"images/two.png":[function(require,module,exports) {
+module.exports = "/two.e9b6879d.png";
+},{}],"images/three.png":[function(require,module,exports) {
+module.exports = "/three.a334fce9.png";
+},{}],"images/four.png":[function(require,module,exports) {
+module.exports = "/four.b72f6141.png";
+},{}],"images/five.png":[function(require,module,exports) {
+module.exports = "/five.dd2a19df.png";
+},{}],"images/six.png":[function(require,module,exports) {
+module.exports = "/six.04897191.png";
+},{}],"images/seven.png":[function(require,module,exports) {
+module.exports = "/seven.34dc1dbe.png";
+},{}],"images/eight.png":[function(require,module,exports) {
+module.exports = "/eight.51959108.png";
+},{}],"images/unclicked-mine.png":[function(require,module,exports) {
+module.exports = "/unclicked-mine.dbc8e64b.png";
+},{}],"images/clicked-mine.png":[function(require,module,exports) {
+module.exports = "/clicked-mine.a8dd8e22.png";
+},{}],"components/Square.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27893,6 +27913,28 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
+
+var _one = _interopRequireDefault(require("../images/one.png"));
+
+var _two = _interopRequireDefault(require("../images/two.png"));
+
+var _three = _interopRequireDefault(require("../images/three.png"));
+
+var _four = _interopRequireDefault(require("../images/four.png"));
+
+var _five = _interopRequireDefault(require("../images/five.png"));
+
+var _six = _interopRequireDefault(require("../images/six.png"));
+
+var _seven = _interopRequireDefault(require("../images/seven.png"));
+
+var _eight = _interopRequireDefault(require("../images/eight.png"));
+
+var _unclickedMine = _interopRequireDefault(require("../images/unclicked-mine.png"));
+
+var _clickedMine = _interopRequireDefault(require("../images/clicked-mine.png"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -27929,6 +27971,7 @@ function (_Component) {
       clicked: false
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.convertValue = _this.convertValue.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -27940,12 +27983,75 @@ function (_Component) {
       });
     }
   }, {
+    key: "convertValue",
+    value: function convertValue() {
+      var value = this.props.value;
+
+      if (value === 1) {
+        return _react.default.createElement("img", {
+          className: "tiles",
+          src: _one.default,
+          style: {
+            width: "14px"
+          }
+        });
+      } else if (value === 2) {
+        return _react.default.createElement("img", {
+          className: "tiles",
+          src: _two.default
+        });
+      } else if (value === 3) {
+        return _react.default.createElement("img", {
+          className: "tiles",
+          src: _three.default
+        });
+      } else if (value === 4) {
+        return _react.default.createElement("img", {
+          className: "tiles",
+          src: _four.default
+        });
+      } else if (value === 5) {
+        return _react.default.createElement("img", {
+          className: "tiles",
+          src: _five.default
+        });
+      } else if (value === 6) {
+        return _react.default.createElement("img", {
+          className: "tiles",
+          src: _six.default
+        });
+      } else if (value === 7) {
+        return _react.default.createElement("img", {
+          className: "tiles",
+          src: _seven.default
+        });
+      } else if (value === 8) {
+        return _react.default.createElement("img", {
+          className: "tiles",
+          src: _eight.default
+        });
+      } else if (value === 'MINE') {
+        return _react.default.createElement("img", {
+          src: _clickedMine.default,
+          style: {
+            width: "28px"
+          }
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
+      var square = document.getElementsByClassName("square".concat(this.props.count, " unselectable"));
+
+      if (this.state.clicked) {
+        square[0].style.border = "1px solid #7B7B7B"; // square[0].style.borderStyle = "outset";
+      }
+
       return _react.default.createElement("button", {
-        className: "square",
+        className: "square square".concat(this.props.count, " unselectable"),
         onClick: this.handleClick
-      }, this.state.clicked ? this.props.value : null);
+      }, this.state.clicked ? this.convertValue() : null);
     }
   }]);
 
@@ -27954,7 +28060,7 @@ function (_Component) {
 
 var _default = Square;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js"}],"components/Board.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","../images/one.png":"images/one.png","../images/two.png":"images/two.png","../images/three.png":"images/three.png","../images/four.png":"images/four.png","../images/five.png":"images/five.png","../images/six.png":"images/six.png","../images/seven.png":"images/seven.png","../images/eight.png":"images/eight.png","../images/unclicked-mine.png":"images/unclicked-mine.png","../images/clicked-mine.png":"images/clicked-mine.png"}],"components/Board.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28009,12 +28115,14 @@ function (_Component) {
     value: function renderBoard() {
       var boardSize = this.props.boardSize;
       var board = [];
+      var count = 0;
 
       for (var i = 0; i < boardSize; i++) {
         var row = [];
 
         for (var j = 0; j < boardSize; j++) {
-          row.push(this.renderSquare(i, j));
+          count++;
+          row.push(this.renderSquare(i, j, count));
         }
 
         board.push(_react.default.createElement("div", {
@@ -28029,10 +28137,12 @@ function (_Component) {
     value: function handleClick() {}
   }, {
     key: "renderSquare",
-    value: function renderSquare(i, j) {
+    value: function renderSquare(i, j, count) {
       return _react.default.createElement(_Square.default // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
       , {
-        value: this.state.board[i][j] // onClick={this.props.handleSquareClick()}
+        value: this.state.board[i][j],
+        count: count // onClick={this.props.handleSquareClick()}
+        // onClick={this.props.handleTimerClick()}
         ,
         onClick: this.handleClick(i)
       });
@@ -28145,6 +28255,64 @@ function (_Component) {
       }
     }
   }, {
+    key: "checkNeighbors",
+    value: function checkNeighbors(e) {
+      var board = this.state.board;
+      var noNull = false;
+
+      if (e.target.value === null) {
+        while (!noNull) {
+          for (var i = 0; i < board.length; i++) {
+            for (var j = 0; j < board[i].length; j++) {
+              if (board[i][j] === 'MINE') {
+                continue;
+              }
+
+              if (board[i][j + 1] === 'MINE') {
+                count++;
+              }
+
+              if (board[i][j - 1] === 'MINE') {
+                count++;
+              }
+
+              if (board[i + 1]) {
+                if (board[i + 1][j] === 'MINE') {
+                  count++;
+                }
+
+                if (board[i + 1][j - 1] === 'MINE') {
+                  count++;
+                }
+
+                if (board[i + 1][j + 1] === 'MINE') {
+                  count++;
+                }
+              }
+
+              if (board[i - 1]) {
+                if (board[i - 1][j] === 'MINE') {
+                  count++;
+                }
+
+                if (board[i - 1][j - 1] === 'MINE') {
+                  count++;
+                }
+
+                if (board[i - 1][j + 1] === 'MINE') {
+                  count++;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    /*
+    Is not adjacent to a mine, the square is blank and should behave as if the 8 adjacent squares were also clicked. For each of those squares, their neighboring squares continue to be revealed in each direction (i.e., this step is applied recursively to all neighboring squares) until the edge of the board is reached or until a square is reached that is adjacent to a mine, in which case the previous rule applies.
+    */
+
+  }, {
     key: "render",
     value: function render() {
       return _react.default.createElement("div", {
@@ -28174,7 +28342,7 @@ var Timer = function Timer(props) {
   return _react.default.createElement("div", {
     className: "timer-container"
   }, _react.default.createElement("div", {
-    className: "timer"
+    className: "timer unselectable"
   }, props.time));
 };
 
@@ -28196,7 +28364,7 @@ var MineCount = function MineCount(props) {
   return _react.default.createElement("div", {
     className: "mine-count-container"
   }, _react.default.createElement("div", {
-    className: "mine-count"
+    className: "mine-count unselectable"
   }, props.mines));
 };
 
@@ -28238,49 +28406,29 @@ var NewGameButton = function NewGameButton(props) {
   var button = function button(state) {
     if (state === 'win') {
       return _react.default.createElement("img", {
-        src: _minesweeperWin.default,
-        style: {
-          width: "24px",
-          position: "relative",
-          right: "3px",
-          top: "2px"
-        }
+        className: "smileys",
+        src: _minesweeperWin.default
       });
     } else if (state === 'lose') {
       return _react.default.createElement("img", {
-        src: _minesweeperLose.default,
-        style: {
-          width: "24px",
-          position: "relative",
-          right: "3px",
-          top: "2px"
-        }
+        className: "smileys",
+        src: _minesweeperLose.default
       });
     } else if (state === 'clicked') {
       return _react.default.createElement("img", {
-        src: _minesweeperSurprised.default,
-        style: {
-          width: "24px",
-          position: "relative",
-          right: "3px",
-          top: "2px"
-        }
+        className: "smileys",
+        src: _minesweeperSurprised.default
       });
     } else {
       return _react.default.createElement("img", {
-        src: _minesweeperAlive.default,
-        style: {
-          width: "24px",
-          position: "relative",
-          right: "3px",
-          top: "2px"
-        }
+        className: "smileys",
+        src: _minesweeperAlive.default
       });
     }
   };
 
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement("button", {
-    className: "new-game",
+    className: "new-game unselectable",
     onClick: props.handleTimerClick
   }, button(state)));
 };
@@ -28388,7 +28536,7 @@ function (_Component) {
     key: "pad",
     value: function pad(str) {
       str = str.toString();
-      return str.length < 3 ? this.pad("0" + str, 3) : str;
+      return str.length < 3 ? this.pad("0" + str) : str;
     }
   }, {
     key: "handleTimerClick",
@@ -28427,7 +28575,6 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      // Create gameStarted state to manage when timer should tick
       var _this$state = this.state,
           time = _this$state.time,
           mines = _this$state.mines,
@@ -28436,7 +28583,7 @@ function (_Component) {
       return _react.default.createElement("div", {
         id: "game"
       }, _react.default.createElement("div", {
-        id: "header"
+        id: "header-container"
       }, _react.default.createElement(_Header.default, {
         mines: mines,
         handleClick: this.handleClick,
@@ -28445,7 +28592,7 @@ function (_Component) {
         time: time,
         pad: this.pad
       })), _react.default.createElement("div", {
-        id: "squares"
+        id: "squares-container"
       }, _react.default.createElement(_Board.default, {
         mines: mines,
         boardSize: boardSize,
