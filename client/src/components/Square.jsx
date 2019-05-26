@@ -17,7 +17,7 @@ class Square extends Component {
 
     this.state = {
       clicked: false,
-      rightClicked: false
+      flagged: false
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -25,31 +25,87 @@ class Square extends Component {
     this.handleRightClick = this.handleRightClick.bind(this);
   }
 
-  checkNeighbors(e) {
-    const { board } = this.props;
-    
-    if (e.target.value === null) {
-      for (let i = 0; i < board.length; i++) {
-        for (let j = 0; j < board.length; j++) {
-          if (board[i][j] === null) {
-            checkNeighbors(board[i][j]);
-          }
-        }
+  checkNeighbors(value) {
+    const { count } = this.props;
+    const squares = document.getElementsByClassName("square");
+
+    if (value === null) {
+      // right
+      if (squares[count + 1] && !this.state.clicked && this.checkRightEdge(count + 1)) {
+      //   console.log('clicked square[count + 1]', count + 1)
+        squares[count + 1].click();
+        // this.checkNeighbors(+squares[count + 1].textContent); // WHY IS THERE A VALUE AS 2ND PARAM?
       }
+      // left
+      if (squares[count - 1] && !this.state.clicked && this.checkLeftEdge(count - 1)) {
+        squares[count - 1].click();
+        // this.checkNeighbors(+squares[count - 1].textContent);
+      }
+      // // bottom left
+      // if (squares[count + 8] && !this.state.clicked && this.checkLeftEdge(count + 8)) {
+      //   squares[count + 8].click();
+      //   // this.checkNeighbors(+squares[count + 8].textContent);
+      // }
+      // // top right
+      // if (squares[count - 8] && !this.state.clicked && this.checkRightEdge(count - 8)) {
+      //   squares[count - 8].click();
+      //   // this.checkNeighbors(+squares[count - 8].textContent);
+      // }
+      // // bottom middle
+      if (squares[count + 9] && !this.state.clicked) {
+        squares[count + 9].click();
+        // this.checkNeighbors(+squares[count + 9].textContent);
+      }
+      // // top middle
+      if (squares[count - 9] && !this.state.clicked) {
+        squares[count - 9].click();
+        // this.checkNeighbors(+squares[count - 9].textContent);
+      }
+      // // bottom right
+      // if (squares[count + 10] && !this.state.clicked && this.checkRightEdge(count + 10)) {
+      //   squares[count + 10].click();
+      //   // this.checkNeighbors(+squares[count + 10].textContent);
+      // }
+      // // top left
+      // if (squares[count - 10] && !this.state.clicked && this.checkLeftEdge(count - 10)) {
+      //   squares[count - 10].click();
+      //   // this.checkNeighbors(+squares[count - 10].textContent);
+      // }
     }
   }
   /*
   Is not adjacent to a mine, the square is blank and should behave as if the 8 adjacent squares were also clicked. For each of those squares, their neighboring squares continue to be revealed in each direction (i.e., this step is applied recursively to all neighboring squares) until the edge of the board is reached or until a square is reached that is adjacent to a mine, in which case the previous rule applies.
   */
 
+  checkLeftEdge(index) {
+    const { board } = this.props;
+
+    if ((index + board.length) % board.length === board.length - 1) {
+      return false;
+    }
+    return true;
+  }
+
+  checkRightEdge(index) {
+    const { board } = this.props;
+
+    if ((index + board.length) % board.length === 0) {
+      return false;
+    }
+    return true;
+  }
+
+
   handleClick() {
     const { value, gameStarted, handleTimerClick, handleSquareClick } = this.props;
-
-    if (!this.state.rightClicked) {
+    
+    console.log('value', value)
+    if (!this.state.flagged) {
       this.setState({
         clicked: true
-      });
+      }, this.checkNeighbors(value));
     }
+    
     if (gameStarted === false) {
       handleTimerClick();
     }
@@ -57,24 +113,35 @@ class Square extends Component {
   }
 
   handleRightClick(e) {
-    const { count, increment, decrement } = this.props;
+    const { increment, decrement } = this.props;
+    const { flagged, clicked } = this.state;
 
-    if (this.state.rightClicked) {
-      increment();
-    } else {
-      decrement();
+    if (!clicked) {
+      if (flagged) {
+        increment();
+      } else {
+        decrement();
+      }
     }
 
     this.setState({
-      rightClicked: !this.state.rightClicked
+      flagged: !flagged
     });
 
-    const square = document.getElementsByClassName(`square${count}`);
-    square[0].style.background = `url(${flag}) 3px 3px`;
-    square[0].style.backgroundRepeat = "no-repeat";
-    square[0].style.backgroundSize = "18px 18px";
-
+    this.placeFlag();
     e.preventDefault();
+  }
+
+  placeFlag() {
+    const square = document.getElementsByClassName(`square${this.props.count}`);
+
+    if (!this.state.flagged && !this.state.clicked) {
+      square[0].style.background = `url(${flag}) 3px 3px`;
+      square[0].style.backgroundRepeat = "no-repeat";
+      square[0].style.backgroundSize = "18px 18px";
+    } else {
+      square[0].style.background = "none";
+    }
   }
 
   convertValue() {
@@ -96,20 +163,25 @@ class Square extends Component {
       return <img className="tiles" src={seven} />
     } else if (value === 8) {
       return <img className="tiles" src={eight} />
-    } else if (value === 'MINE') {
+    } else if (value === "MINE") {
       return <img src={clickedMine} style={{width: "28px"}} />
     }
   }
 
   render() {
-    const square = document.getElementsByClassName(`square${this.props.count}`);
-    if (this.state.clicked) {
+    const { count } = this.props;
+    const { clicked } = this.state;
+    const square = document.getElementsByClassName(`square${count}`);
+
+    if (clicked) {
       square[0].style.border = "1px solid #7B7B7B";
     }
 
     return (
-      <button className={`square square${this.props.count} unselectable`} onClick={(e) => { this.handleClick(e) }} onContextMenu={(e) => { this.handleRightClick(e) }}>
-        {this.state.clicked ? this.convertValue() : null}
+      <button className={`square square${count} unselectable`} onClick={() => { this.handleClick() }} onContextMenu={(e) => { this.handleRightClick(e) }}>
+        {clicked ? this.convertValue() : null}
+        <div className="hide">{this.props.value}</div>
+        {/* {this.props.count} */}
       </button>
     );
   }

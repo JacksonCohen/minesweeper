@@ -9,8 +9,8 @@ class App extends Component {
     this.state = {
       mines: 10,
       boardSize: 9,
-      time: '000',
-      gameState: 'alive',
+      time: "000",
+      gameState: "alive",
       gameStarted: false
     }
 
@@ -22,8 +22,8 @@ class App extends Component {
   }
 
   pad (str) {
-    let num = +str;
     str = str.toString();
+    let num = +str;
 
     return str.length === 3 ? str : num < 0 ? this.pad("-0" + Math.abs(str)) : this.pad("0" + str);
   }
@@ -33,22 +33,20 @@ class App extends Component {
   }
 
   handleTimerClick() {
-    this.stopTimer();
-
     const increment = () => {
       if (+this.state.time < 999) {
         this.setState({
           time: this.pad(+this.state.time + 1)
         });
       } else {
-        clearInterval(this.timer);
+        this.stopTimer();
       }
     }
-
-    this.timer = setInterval(() => { increment() }, 1000);
     
+    this.stopTimer();
+    this.timer = setInterval(increment, 1000);
     this.setState({
-      time: '000'
+      time: "000"
     });
   }
 
@@ -59,14 +57,20 @@ class App extends Component {
   // }
 
   handleSquareClick(value) {
-    if (value === 'MINE') {
+    if (value === "MINE") {
       this.setState({
-        gameState: 'lose'
+        gameState: "lose",
+        gameStarted: false
       });
       this.stopTimer();
+    // } else if () {
+    //   this.setState({
+    //     gameState: "clicked"
+    //   });
+    // }
     } else {
       this.setState({
-        gameState: 'clicked',
+        gameState: "alive",
         gameStarted: true
       });
     }

@@ -18,8 +18,8 @@ class Board extends Component {
     for (let i = 0; i < boardSize; i++) {
       let row = [];
       for (let j = 0; j < boardSize; j++) {
-        count++;
         row.push(this.renderSquare(i, j, count));
+        count++;
       }
       board.push(<div key={count} className="row">{[...row]}</div>);
     }
@@ -70,13 +70,13 @@ class Board extends Component {
         Math.floor(Math.random() * boardSize)
       ];
 
-      minesObject[coords] = 'Watch out for the mines!';
+      minesObject[coords] = "Watch out for the mines!";
     }
     
-    const minesArray = Object.keys(minesObject).map(key => key.split(',').map(val => +val));
+    const minesArray = Object.keys(minesObject).map(key => key.split(",").map(val => +val));
 
     for (let i = 0; i < minesArray.length; i++) {
-      board[minesArray[i][0]][minesArray[i][1]] = 'MINE';
+      board[minesArray[i][0]][minesArray[i][1]] = "MINE";
     }
 
     this.setState({
@@ -91,34 +91,34 @@ class Board extends Component {
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
         count = 0;
-        if (board[i][j] === 'MINE') {
+        if (board[i][j] === "MINE") {
           continue;
         }
-        if (board[i][j + 1] === 'MINE') {
+        if (board[i][j + 1] === "MINE") {
           count++;
         }
-        if (board[i][j - 1] === 'MINE') {
+        if (board[i][j - 1] === "MINE") {
           count++;
         }
         if (board[i + 1]) {
-          if (board[i + 1][j] === 'MINE') {
+          if (board[i + 1][j] === "MINE") {
             count++;
           }
-          if (board[i + 1][j - 1] === 'MINE') {
+          if (board[i + 1][j - 1] === "MINE") {
             count++;
           }
-          if (board[i + 1][j + 1] === 'MINE') {
+          if (board[i + 1][j + 1] === "MINE") {
             count++;
           }
         }
         if (board[i - 1]) {
-          if (board[i - 1][j] === 'MINE') {
+          if (board[i - 1][j] === "MINE") {
             count++;
           }
-          if (board[i - 1][j - 1] === 'MINE') {
+          if (board[i - 1][j - 1] === "MINE") {
             count++;
           }
-          if (board[i - 1][j + 1] === 'MINE') {
+          if (board[i - 1][j + 1] === "MINE") {
             count++;
           }
         }

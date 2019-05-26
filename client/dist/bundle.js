@@ -27973,7 +27973,7 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Square).call(this, props));
     _this.state = {
       clicked: false,
-      rightClicked: false
+      flagged: false
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     _this.convertValue = _this.convertValue.bind(_assertThisInitialized(_this));
@@ -27983,33 +27983,79 @@ function (_Component) {
 
   _createClass(Square, [{
     key: "checkNeighbors",
-    value: function (_checkNeighbors) {
-      function checkNeighbors(_x) {
-        return _checkNeighbors.apply(this, arguments);
+    value: function checkNeighbors(value) {
+      var count = this.props.count;
+      var squares = document.getElementsByClassName("square");
+
+      if (value === null) {
+        // right
+        if (squares[count + 1] && !this.state.clicked && this.checkRightEdge(count + 1)) {
+          //   console.log('clicked square[count + 1]', count + 1)
+          squares[count + 1].click(); // this.checkNeighbors(+squares[count + 1].textContent); // WHY IS THERE A VALUE AS 2ND PARAM?
+        } // left
+
+
+        if (squares[count - 1] && !this.state.clicked && this.checkLeftEdge(count - 1)) {
+          squares[count - 1].click(); // this.checkNeighbors(+squares[count - 1].textContent);
+        } // // bottom left
+        // if (squares[count + 8] && !this.state.clicked && this.checkLeftEdge(count + 8)) {
+        //   squares[count + 8].click();
+        //   // this.checkNeighbors(+squares[count + 8].textContent);
+        // }
+        // // top right
+        // if (squares[count - 8] && !this.state.clicked && this.checkRightEdge(count - 8)) {
+        //   squares[count - 8].click();
+        //   // this.checkNeighbors(+squares[count - 8].textContent);
+        // }
+        // // bottom middle
+
+
+        if (squares[count + 9] && !this.state.clicked) {
+          squares[count + 9].click(); // this.checkNeighbors(+squares[count + 9].textContent);
+        } // // top middle
+
+
+        if (squares[count - 9] && !this.state.clicked) {
+          squares[count - 9].click(); // this.checkNeighbors(+squares[count - 9].textContent);
+        } // // bottom right
+        // if (squares[count + 10] && !this.state.clicked && this.checkRightEdge(count + 10)) {
+        //   squares[count + 10].click();
+        //   // this.checkNeighbors(+squares[count + 10].textContent);
+        // }
+        // // top left
+        // if (squares[count - 10] && !this.state.clicked && this.checkLeftEdge(count - 10)) {
+        //   squares[count - 10].click();
+        //   // this.checkNeighbors(+squares[count - 10].textContent);
+        // }
+
       }
-
-      checkNeighbors.toString = function () {
-        return _checkNeighbors.toString();
-      };
-
-      return checkNeighbors;
-    }(function (e) {
-      var board = this.props.board;
-
-      if (e.target.value === null) {
-        for (var i = 0; i < board.length; i++) {
-          for (var j = 0; j < board.length; j++) {
-            if (board[i][j] === null) {
-              checkNeighbors(board[i][j]);
-            }
-          }
-        }
-      }
-    })
+    }
     /*
     Is not adjacent to a mine, the square is blank and should behave as if the 8 adjacent squares were also clicked. For each of those squares, their neighboring squares continue to be revealed in each direction (i.e., this step is applied recursively to all neighboring squares) until the edge of the board is reached or until a square is reached that is adjacent to a mine, in which case the previous rule applies.
     */
 
+  }, {
+    key: "checkLeftEdge",
+    value: function checkLeftEdge(index) {
+      var board = this.props.board;
+
+      if ((index + board.length) % board.length === board.length - 1) {
+        return false;
+      }
+
+      return true;
+    }
+  }, {
+    key: "checkRightEdge",
+    value: function checkRightEdge(index) {
+      var board = this.props.board;
+
+      if ((index + board.length) % board.length === 0) {
+        return false;
+      }
+
+      return true;
+    }
   }, {
     key: "handleClick",
     value: function handleClick() {
@@ -28018,11 +28064,12 @@ function (_Component) {
           gameStarted = _this$props.gameStarted,
           handleTimerClick = _this$props.handleTimerClick,
           handleSquareClick = _this$props.handleSquareClick;
+      console.log('value', value);
 
-      if (!this.state.rightClicked) {
+      if (!this.state.flagged) {
         this.setState({
           clicked: true
-        });
+        }, this.checkNeighbors(value));
       }
 
       if (gameStarted === false) {
@@ -28035,24 +28082,38 @@ function (_Component) {
     key: "handleRightClick",
     value: function handleRightClick(e) {
       var _this$props2 = this.props,
-          count = _this$props2.count,
           increment = _this$props2.increment,
           decrement = _this$props2.decrement;
+      var _this$state = this.state,
+          flagged = _this$state.flagged,
+          clicked = _this$state.clicked;
 
-      if (this.state.rightClicked) {
-        increment();
-      } else {
-        decrement();
+      if (!clicked) {
+        if (flagged) {
+          increment();
+        } else {
+          decrement();
+        }
       }
 
       this.setState({
-        rightClicked: !this.state.rightClicked
+        flagged: !flagged
       });
-      var square = document.getElementsByClassName("square".concat(count));
-      square[0].style.background = "url(".concat(_flag.default, ") 3px 3px");
-      square[0].style.backgroundRepeat = "no-repeat";
-      square[0].style.backgroundSize = "18px 18px";
+      this.placeFlag();
       e.preventDefault();
+    }
+  }, {
+    key: "placeFlag",
+    value: function placeFlag() {
+      var square = document.getElementsByClassName("square".concat(this.props.count));
+
+      if (!this.state.flagged && !this.state.clicked) {
+        square[0].style.background = "url(".concat(_flag.default, ") 3px 3px");
+        square[0].style.backgroundRepeat = "no-repeat";
+        square[0].style.backgroundSize = "18px 18px";
+      } else {
+        square[0].style.background = "none";
+      }
     }
   }, {
     key: "convertValue",
@@ -28102,7 +28163,7 @@ function (_Component) {
           className: "tiles",
           src: _eight.default
         });
-      } else if (value === 'MINE') {
+      } else if (value === "MINE") {
         return _react.default.createElement("img", {
           src: _clickedMine.default,
           style: {
@@ -28116,21 +28177,25 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var square = document.getElementsByClassName("square".concat(this.props.count));
+      var count = this.props.count;
+      var clicked = this.state.clicked;
+      var square = document.getElementsByClassName("square".concat(count));
 
-      if (this.state.clicked) {
+      if (clicked) {
         square[0].style.border = "1px solid #7B7B7B";
       }
 
       return _react.default.createElement("button", {
-        className: "square square".concat(this.props.count, " unselectable"),
-        onClick: function onClick(e) {
-          _this2.handleClick(e);
+        className: "square square".concat(count, " unselectable"),
+        onClick: function onClick() {
+          _this2.handleClick();
         },
         onContextMenu: function onContextMenu(e) {
           _this2.handleRightClick(e);
         }
-      }, this.state.clicked ? this.convertValue() : null);
+      }, clicked ? this.convertValue() : null, _react.default.createElement("div", {
+        className: "hide"
+      }, this.props.value));
     }
   }]);
 
@@ -28200,8 +28265,8 @@ function (_Component) {
         var row = [];
 
         for (var j = 0; j < boardSize; j++) {
-          count++;
           row.push(this.renderSquare(i, j, count));
+          count++;
         }
 
         board.push(_react.default.createElement("div", {
@@ -28273,17 +28338,17 @@ function (_Component) {
 
       while (Object.keys(minesObject).length < mines) {
         var coords = [Math.floor(Math.random() * boardSize), Math.floor(Math.random() * boardSize)];
-        minesObject[coords] = 'Watch out for the mines!';
+        minesObject[coords] = "Watch out for the mines!";
       }
 
       var minesArray = Object.keys(minesObject).map(function (key) {
-        return key.split(',').map(function (val) {
+        return key.split(",").map(function (val) {
           return +val;
         });
       });
 
       for (var i = 0; i < minesArray.length; i++) {
-        board[minesArray[i][0]][minesArray[i][1]] = 'MINE';
+        board[minesArray[i][0]][minesArray[i][1]] = "MINE";
       }
 
       this.setState({
@@ -28300,42 +28365,42 @@ function (_Component) {
         for (var j = 0; j < board[i].length; j++) {
           count = 0;
 
-          if (board[i][j] === 'MINE') {
+          if (board[i][j] === "MINE") {
             continue;
           }
 
-          if (board[i][j + 1] === 'MINE') {
+          if (board[i][j + 1] === "MINE") {
             count++;
           }
 
-          if (board[i][j - 1] === 'MINE') {
+          if (board[i][j - 1] === "MINE") {
             count++;
           }
 
           if (board[i + 1]) {
-            if (board[i + 1][j] === 'MINE') {
+            if (board[i + 1][j] === "MINE") {
               count++;
             }
 
-            if (board[i + 1][j - 1] === 'MINE') {
+            if (board[i + 1][j - 1] === "MINE") {
               count++;
             }
 
-            if (board[i + 1][j + 1] === 'MINE') {
+            if (board[i + 1][j + 1] === "MINE") {
               count++;
             }
           }
 
           if (board[i - 1]) {
-            if (board[i - 1][j] === 'MINE') {
+            if (board[i - 1][j] === "MINE") {
               count++;
             }
 
-            if (board[i - 1][j - 1] === 'MINE') {
+            if (board[i - 1][j - 1] === "MINE") {
               count++;
             }
 
-            if (board[i - 1][j + 1] === 'MINE') {
+            if (board[i - 1][j + 1] === "MINE") {
               count++;
             }
           }
@@ -28551,8 +28616,8 @@ function (_Component) {
     _this.state = {
       mines: 10,
       boardSize: 9,
-      time: '000',
-      gameState: 'alive',
+      time: "000",
+      gameState: "alive",
       gameStarted: false
     };
     _this.pad = _this.pad.bind(_assertThisInitialized(_this));
@@ -28566,8 +28631,8 @@ function (_Component) {
   _createClass(App, [{
     key: "pad",
     value: function pad(str) {
-      var num = +str;
       str = str.toString();
+      var num = +str;
       return str.length === 3 ? str : num < 0 ? this.pad("-0" + Math.abs(str)) : this.pad("0" + str);
     }
   }, {
@@ -28580,23 +28645,20 @@ function (_Component) {
     value: function handleTimerClick() {
       var _this2 = this;
 
-      this.stopTimer();
-
       var increment = function increment() {
         if (+_this2.state.time < 999) {
           _this2.setState({
             time: _this2.pad(+_this2.state.time + 1)
           });
         } else {
-          clearInterval(_this2.timer);
+          _this2.stopTimer();
         }
       };
 
-      this.timer = setInterval(function () {
-        increment();
-      }, 1000);
+      this.stopTimer();
+      this.timer = setInterval(increment, 1000);
       this.setState({
-        time: '000'
+        time: "000"
       });
     } // handleClick(e) {
     //   this.setState({
@@ -28607,14 +28669,19 @@ function (_Component) {
   }, {
     key: "handleSquareClick",
     value: function handleSquareClick(value) {
-      if (value === 'MINE') {
+      if (value === "MINE") {
         this.setState({
-          gameState: 'lose'
+          gameState: "lose",
+          gameStarted: false
         });
-        this.stopTimer();
+        this.stopTimer(); // } else if () {
+        //   this.setState({
+        //     gameState: "clicked"
+        //   });
+        // }
       } else {
         this.setState({
-          gameState: 'clicked',
+          gameState: "alive",
           gameStarted: true
         });
       }
@@ -28712,7 +28779,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55818" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55641" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
