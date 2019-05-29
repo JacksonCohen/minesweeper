@@ -68,6 +68,9 @@ class App extends Component {
         gameStarted: false
       });
       this.stopTimer();
+      for (let i = 0; i < squares.length; i++) {
+        squares[i].disabled = true;
+      }
     // } else if () {
     //   this.setState({
     //     gameState: "clicked"

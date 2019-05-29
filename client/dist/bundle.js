@@ -28728,11 +28728,16 @@ function (_Component) {
           gameState: "lose",
           gameStarted: false
         });
-        this.stopTimer(); // } else if () {
+        this.stopTimer();
+
+        for (var i = 0; i < squares.length; i++) {
+          squares[i].disabled = true;
+        } // } else if () {
         //   this.setState({
         //     gameState: "clicked"
         //   });
         // }
+
       } else if (numbers === 0) {
         this.setState({
           gameState: "win"
