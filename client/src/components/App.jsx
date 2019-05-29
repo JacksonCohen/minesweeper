@@ -9,14 +9,17 @@ class App extends Component {
     this.state = {
       mines: 10,
       boardSize: 9,
+      numbers: 0,
       time: "000",
       gameState: "alive",
       gameStarted: false
     }
 
     this.pad = this.pad.bind(this);
+    this.setNumCount = this.setNumCount.bind(this);
     this.handleTimerClick = this.handleTimerClick.bind(this);
     this.handleSquareClick = this.handleSquareClick.bind(this);
+    this.decrementNumCount = this.decrementNumCount.bind(this);
     this.incrementMineCount = this.incrementMineCount.bind(this);
     this.decrementMineCount = this.decrementMineCount.bind(this);
   }
@@ -57,6 +60,8 @@ class App extends Component {
   // }
 
   handleSquareClick(value) {
+    const { numbers } = this.state;
+
     if (value === "MINE") {
       this.setState({
         gameState: "lose",
@@ -68,12 +73,28 @@ class App extends Component {
     //     gameState: "clicked"
     //   });
     // }
-    } else {
+    } else if (numbers === 0) {
+      this.setState({
+        gameState: "win"
+      });
+    } else if (value === null) {
       this.setState({
         gameState: "alive",
         gameStarted: true
       });
     }
+  }
+
+  setNumCount(numCount) {
+    this.setState({
+      numbers: numCount
+    });
+  }
+
+  decrementNumCount() {
+    this.setState({
+      numbers: this.state.numbers - 1
+    });
   }
 
   incrementMineCount() {
@@ -97,7 +118,7 @@ class App extends Component {
           <Header mines={mines} handleClick={this.handleClick} state={gameState} time={time} pad={this.pad} />
         </div>
         <div id="squares-container">
-          <Board mines={mines} boardSize={boardSize} gameStarted={gameStarted} handleTimerClick={this.handleTimerClick} handleSquareClick={this.handleSquareClick} increment={this.incrementMineCount} decrement={this.decrementMineCount} stopTimer={this.stopTimer} />
+          <Board mines={mines} boardSize={boardSize} gameStarted={gameStarted} handleTimerClick={this.handleTimerClick} handleSquareClick={this.handleSquareClick} increment={this.incrementMineCount} decrement={this.decrementMineCount} stopTimer={this.stopTimer} setNumCount={this.setNumCount} decrementNumCount={this.decrementNumCount} />
         </div>
       </div>
     );

@@ -27989,13 +27989,14 @@ function (_Component) {
 
       if (value === null) {
         // right
-        if (squares[count + 1] && !this.state.clicked && this.checkRightEdge(count + 1)) {
-          //   console.log('clicked square[count + 1]', count + 1)
+        if (squares[count + 1] && this.checkRightEdge(count + 1) && !this.state.clicked) {
+          console.log('clicked square[count + 1]', count + 1, this.state.clicked);
           squares[count + 1].click(); // this.checkNeighbors(+squares[count + 1].textContent); // WHY IS THERE A VALUE AS 2ND PARAM?
         } // left
 
 
-        if (squares[count - 1] && !this.state.clicked && this.checkLeftEdge(count - 1)) {
+        if (squares[count - 1] && this.checkLeftEdge(count - 1) && !this.state.clicked) {
+          console.log('clicked square[count - 1]', count - 1, this.state.clicked);
           squares[count - 1].click(); // this.checkNeighbors(+squares[count - 1].textContent);
         } // // bottom left
         // if (squares[count + 8] && !this.state.clicked && this.checkLeftEdge(count + 8)) {
@@ -28011,11 +28012,13 @@ function (_Component) {
 
 
         if (squares[count + 9] && !this.state.clicked) {
+          console.log('clicked square[count + 9]', count + 9, this.state.clicked);
           squares[count + 9].click(); // this.checkNeighbors(+squares[count + 9].textContent);
         } // // top middle
 
 
         if (squares[count - 9] && !this.state.clicked) {
+          console.log('clicked square[count - 9]', count - 9, this.state.clicked);
           squares[count - 9].click(); // this.checkNeighbors(+squares[count - 9].textContent);
         } // // bottom right
         // if (squares[count + 10] && !this.state.clicked && this.checkRightEdge(count + 10)) {
@@ -28063,8 +28066,16 @@ function (_Component) {
           value = _this$props.value,
           gameStarted = _this$props.gameStarted,
           handleTimerClick = _this$props.handleTimerClick,
-          handleSquareClick = _this$props.handleSquareClick;
-      console.log('value', value);
+          handleSquareClick = _this$props.handleSquareClick,
+          renderBoard = _this$props.renderBoard,
+          decrementNumCount = _this$props.decrementNumCount; // this.promiseCheckFirst()
+      //   .then(() => {
+      //     renderBoard();
+      //   })
+
+      if (value !== "MINE" && value !== null) {
+        decrementNumCount();
+      }
 
       if (!this.state.flagged) {
         this.setState({
@@ -28105,16 +28116,42 @@ function (_Component) {
   }, {
     key: "placeFlag",
     value: function placeFlag() {
-      var square = document.getElementsByClassName("square".concat(this.props.count));
+      var count = this.props.count;
+      var _this$state2 = this.state,
+          flagged = _this$state2.flagged,
+          clicked = _this$state2.clicked;
+      var square = document.getElementsByClassName("square".concat(count)); // document.styleSheets[0].insertRule('.square:active { border-style: outset !important; }', 0);
+      // document.styleSheets[0].cssRules[0].style.borderStyle = 'outset';
 
-      if (!this.state.flagged && !this.state.clicked) {
+      if (!flagged && !clicked) {
         square[0].style.background = "url(".concat(_flag.default, ") 3px 3px");
         square[0].style.backgroundRepeat = "no-repeat";
         square[0].style.backgroundSize = "18px 18px";
       } else {
+        // document.styleSheets[0].insertRule('.square:active { border-style: outset; }', 0);
         square[0].style.background = "none";
       }
-    }
+    } // checkFirstClick() {
+    //   const { value, board, gameStarted, updateBoard } = this.props;
+    //   if (!gameStarted) {
+    //     if (value !== null) {
+    //       updateBoard(board.length);
+    //       console.log(value)
+    //     }
+    //   }
+    // }
+    // promiseCheckFirst() {
+    //   return new Promise((resolve, reject) => {
+    //     this.checkFirstClick((err, data) => {
+    //       if (err) {
+    //         reject(err);
+    //       } else {
+    //         resolve(data);
+    //       }
+    //     });
+    //   });
+    // }
+
   }, {
     key: "convertValue",
     value: function convertValue() {
@@ -28177,7 +28214,9 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var count = this.props.count;
+      var _this$props3 = this.props,
+          count = _this$props3.count,
+          value = _this$props3.value;
       var clicked = this.state.clicked;
       var square = document.getElementsByClassName("square".concat(count));
 
@@ -28195,7 +28234,7 @@ function (_Component) {
         }
       }, clicked ? this.convertValue() : null, _react.default.createElement("div", {
         className: "hide"
-      }, this.props.value));
+      }, value));
     }
   }]);
 
@@ -28246,7 +28285,8 @@ function (_Component) {
   function Board(props) {
     _classCallCheck(this, Board);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props)); // this.renderBoard = this.renderBoard.bind(this);
+    // this.updateBoard = this.updateBoard.bind(this);
   }
 
   _createClass(Board, [{
@@ -28270,7 +28310,7 @@ function (_Component) {
         }
 
         board.push(_react.default.createElement("div", {
-          key: count,
+          key: count - 1,
           className: "row"
         }, [].concat(row)));
       }
@@ -28286,7 +28326,8 @@ function (_Component) {
           increment = _this$props.increment,
           decrement = _this$props.decrement,
           handleSquareClick = _this$props.handleSquareClick,
-          handleTimerClick = _this$props.handleTimerClick;
+          handleTimerClick = _this$props.handleTimerClick,
+          decrementNumCount = _this$props.decrementNumCount;
       return _react.default.createElement(_Square.default // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
       , {
         key: count,
@@ -28295,9 +28336,12 @@ function (_Component) {
         value: board[i][j],
         increment: increment,
         decrement: decrement,
-        gameStarted: gameStarted,
+        gameStarted: gameStarted // renderBoard={this.renderBoard}
+        // updateBoard={this.updateBoard}
+        ,
         handleTimerClick: handleTimerClick,
-        handleSquareClick: handleSquareClick
+        handleSquareClick: handleSquareClick,
+        decrementNumCount: decrementNumCount
       });
     }
   }, {
@@ -28359,7 +28403,9 @@ function (_Component) {
     key: "placeNumbers",
     value: function placeNumbers() {
       var board = this.state.board;
+      var setNumCount = this.props.setNumCount;
       var count = 0;
+      var numCount = 0;
 
       for (var i = 0; i < board.length; i++) {
         for (var j = 0; j < board[i].length; j++) {
@@ -28406,10 +28452,13 @@ function (_Component) {
           }
 
           if (count > 0) {
+            numCount++;
             board[i][j] = count;
           }
         }
       }
+
+      setNumCount(numCount);
     }
   }, {
     key: "render",
@@ -28616,13 +28665,16 @@ function (_Component) {
     _this.state = {
       mines: 10,
       boardSize: 9,
+      numbers: 0,
       time: "000",
       gameState: "alive",
       gameStarted: false
     };
     _this.pad = _this.pad.bind(_assertThisInitialized(_this));
+    _this.setNumCount = _this.setNumCount.bind(_assertThisInitialized(_this));
     _this.handleTimerClick = _this.handleTimerClick.bind(_assertThisInitialized(_this));
     _this.handleSquareClick = _this.handleSquareClick.bind(_assertThisInitialized(_this));
+    _this.decrementNumCount = _this.decrementNumCount.bind(_assertThisInitialized(_this));
     _this.incrementMineCount = _this.incrementMineCount.bind(_assertThisInitialized(_this));
     _this.decrementMineCount = _this.decrementMineCount.bind(_assertThisInitialized(_this));
     return _this;
@@ -28669,6 +28721,8 @@ function (_Component) {
   }, {
     key: "handleSquareClick",
     value: function handleSquareClick(value) {
+      var numbers = this.state.numbers;
+
       if (value === "MINE") {
         this.setState({
           gameState: "lose",
@@ -28679,12 +28733,30 @@ function (_Component) {
         //     gameState: "clicked"
         //   });
         // }
-      } else {
+      } else if (numbers === 0) {
+        this.setState({
+          gameState: "win"
+        });
+      } else if (value === null) {
         this.setState({
           gameState: "alive",
           gameStarted: true
         });
       }
+    }
+  }, {
+    key: "setNumCount",
+    value: function setNumCount(numCount) {
+      this.setState({
+        numbers: numCount
+      });
+    }
+  }, {
+    key: "decrementNumCount",
+    value: function decrementNumCount() {
+      this.setState({
+        numbers: this.state.numbers - 1
+      });
     }
   }, {
     key: "incrementMineCount",
@@ -28729,7 +28801,9 @@ function (_Component) {
         handleSquareClick: this.handleSquareClick,
         increment: this.incrementMineCount,
         decrement: this.decrementMineCount,
-        stopTimer: this.stopTimer
+        stopTimer: this.stopTimer,
+        setNumCount: this.setNumCount,
+        decrementNumCount: this.decrementNumCount
       })));
     }
   }]);
@@ -28779,7 +28853,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55641" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60616" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

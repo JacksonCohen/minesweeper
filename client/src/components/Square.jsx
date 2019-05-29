@@ -31,13 +31,14 @@ class Square extends Component {
 
     if (value === null) {
       // right
-      if (squares[count + 1] && !this.state.clicked && this.checkRightEdge(count + 1)) {
-      //   console.log('clicked square[count + 1]', count + 1)
+      if (squares[count + 1] && this.checkRightEdge(count + 1) && !this.state.clicked) {
+        console.log('clicked square[count + 1]', count + 1, this.state.clicked)
         squares[count + 1].click();
         // this.checkNeighbors(+squares[count + 1].textContent); // WHY IS THERE A VALUE AS 2ND PARAM?
       }
       // left
-      if (squares[count - 1] && !this.state.clicked && this.checkLeftEdge(count - 1)) {
+      if (squares[count - 1] && this.checkLeftEdge(count - 1) && !this.state.clicked) {
+        console.log('clicked square[count - 1]', count - 1, this.state.clicked)
         squares[count - 1].click();
         // this.checkNeighbors(+squares[count - 1].textContent);
       }
@@ -53,11 +54,13 @@ class Square extends Component {
       // }
       // // bottom middle
       if (squares[count + 9] && !this.state.clicked) {
+        console.log('clicked square[count + 9]', count + 9, this.state.clicked)
         squares[count + 9].click();
         // this.checkNeighbors(+squares[count + 9].textContent);
       }
       // // top middle
       if (squares[count - 9] && !this.state.clicked) {
+        console.log('clicked square[count - 9]', count - 9, this.state.clicked)
         squares[count - 9].click();
         // this.checkNeighbors(+squares[count - 9].textContent);
       }
@@ -97,9 +100,16 @@ class Square extends Component {
 
 
   handleClick() {
-    const { value, gameStarted, handleTimerClick, handleSquareClick } = this.props;
+    const { value, gameStarted, handleTimerClick, handleSquareClick, renderBoard, decrementNumCount } = this.props;
     
-    console.log('value', value)
+    // this.promiseCheckFirst()
+    //   .then(() => {
+    //     renderBoard();
+    //   })
+    if (value !== "MINE" && value !== null) {
+      decrementNumCount();
+    }
+
     if (!this.state.flagged) {
       this.setState({
         clicked: true
@@ -133,16 +143,45 @@ class Square extends Component {
   }
 
   placeFlag() {
-    const square = document.getElementsByClassName(`square${this.props.count}`);
+    const { count } = this.props;
+    const { flagged, clicked } = this.state;
+    const square = document.getElementsByClassName(`square${count}`);
+  
+    // document.styleSheets[0].insertRule('.square:active { border-style: outset !important; }', 0);
+    // document.styleSheets[0].cssRules[0].style.borderStyle = 'outset';
 
-    if (!this.state.flagged && !this.state.clicked) {
+    if (!flagged && !clicked) {
       square[0].style.background = `url(${flag}) 3px 3px`;
       square[0].style.backgroundRepeat = "no-repeat";
       square[0].style.backgroundSize = "18px 18px";
     } else {
+      // document.styleSheets[0].insertRule('.square:active { border-style: outset; }', 0);
       square[0].style.background = "none";
     }
   }
+
+  // checkFirstClick() {
+  //   const { value, board, gameStarted, updateBoard } = this.props;
+
+  //   if (!gameStarted) {
+  //     if (value !== null) {
+  //       updateBoard(board.length);
+  //       console.log(value)
+  //     }
+  //   }
+  // }
+
+  // promiseCheckFirst() {
+  //   return new Promise((resolve, reject) => {
+  //     this.checkFirstClick((err, data) => {
+  //       if (err) {
+  //         reject(err);
+  //       } else {
+  //         resolve(data);
+  //       }
+  //     });
+  //   });
+  // }
 
   convertValue() {
     const { value } = this.props;
@@ -169,7 +208,7 @@ class Square extends Component {
   }
 
   render() {
-    const { count } = this.props;
+    const { count, value } = this.props;
     const { clicked } = this.state;
     const square = document.getElementsByClassName(`square${count}`);
 
@@ -180,7 +219,7 @@ class Square extends Component {
     return (
       <button className={`square square${count} unselectable`} onClick={() => { this.handleClick() }} onContextMenu={(e) => { this.handleRightClick(e) }}>
         {clicked ? this.convertValue() : null}
-        <div className="hide">{this.props.value}</div>
+        <div className="hide">{value}</div>
         {/* {this.props.count} */}
       </button>
     );

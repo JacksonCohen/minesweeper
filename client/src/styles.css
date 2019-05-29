@@ -98,7 +98,7 @@ button:focus {
 }
 
 .square:active {
-  border: 0 !important;
+  border: 0;
 }
 
 .new-game:active {

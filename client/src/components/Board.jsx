@@ -4,6 +4,9 @@ import Square from './Square';
 class Board extends Component {
   constructor(props) {
     super(props);
+
+    // this.renderBoard = this.renderBoard.bind(this);
+    // this.updateBoard = this.updateBoard.bind(this);
   }
 
   componentWillMount() {
@@ -21,14 +24,14 @@ class Board extends Component {
         row.push(this.renderSquare(i, j, count));
         count++;
       }
-      board.push(<div key={count} className="row">{[...row]}</div>);
+      board.push(<div key={count - 1} className="row">{[...row]}</div>);
     }
     return board;
   }
 
   renderSquare(i, j, count) {
     const { board } = this.state;
-    const { gameStarted, increment, decrement, handleSquareClick, handleTimerClick } = this.props;
+    const { gameStarted, increment, decrement, handleSquareClick, handleTimerClick, decrementNumCount } = this.props;
 
     return (
       <Square
@@ -40,8 +43,11 @@ class Board extends Component {
         increment={increment}
         decrement={decrement}
         gameStarted={gameStarted}
+        // renderBoard={this.renderBoard}
+        // updateBoard={this.updateBoard}
         handleTimerClick={handleTimerClick}
         handleSquareClick={handleSquareClick}
+        decrementNumCount={decrementNumCount}
       />
     );
   }
@@ -86,7 +92,9 @@ class Board extends Component {
 
   placeNumbers() {
     const { board } = this.state;
+    const { setNumCount } = this.props;
     let count = 0;
+    let numCount = 0;
 
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
@@ -123,10 +131,12 @@ class Board extends Component {
           }
         }
         if (count > 0) {
+          numCount++;
           board[i][j] = count;
         }
       }
     }
+    setNumCount(numCount);
   }
 
   render() {
