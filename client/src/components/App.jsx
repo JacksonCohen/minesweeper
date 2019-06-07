@@ -7,18 +7,20 @@ class App extends Component {
     super(props);
 
     this.state = {
-      mines: 10,
+      mines: 16,
       boardSize: 9,
       numbers: 0,
       time: "000",
       gameState: "alive",
-      gameStarted: false
+      gameStarted: false,
+      gamesPlayed: 1
     }
 
     this.pad = this.pad.bind(this);
     this.setNumCount = this.setNumCount.bind(this);
     this.handleTimerClick = this.handleTimerClick.bind(this);
     this.handleSquareClick = this.handleSquareClick.bind(this);
+    this.handleNewGameClick = this.handleNewGameClick.bind(this);
     this.decrementNumCount = this.decrementNumCount.bind(this);
     this.incrementMineCount = this.incrementMineCount.bind(this);
     this.decrementMineCount = this.decrementMineCount.bind(this);
@@ -53,23 +55,37 @@ class App extends Component {
     });
   }
 
+  handleNewGameClick() {
+    this.setState({
+      gamesPlayed: this.state.gamesPlayed + 1,
+      gameState: "alive",
+      time: "000",
+      mines: 10
+    });
+    this.stopTimer();
+  }
+
   // handleClick(e) {
   //   this.setState({
   //     boardSize: e.target.value
   //   });
   // }
 
-  handleSquareClick(value) {
+  handleSquareClick(value, callback) {
     const { numbers } = this.state;
+    const squares = document.getElementsByClassName("square");
 
     if (value === "MINE") {
       this.setState({
         gameState: "lose",
         gameStarted: false
-      });
+      }, () => { callback() });
       this.stopTimer();
       for (let i = 0; i < squares.length; i++) {
-        squares[i].disabled = true;
+        // if (squares[i].style.background !== "none") {
+          // console.log(squares[i].style)
+          squares[i].disabled = true;
+        // }
       }
     // } else if () {
     //   this.setState({
@@ -80,7 +96,7 @@ class App extends Component {
       this.setState({
         gameState: "win"
       });
-    } else if (value === null) {
+    } else {
       this.setState({
         gameState: "alive",
         gameStarted: true
@@ -118,10 +134,30 @@ class App extends Component {
     return (
       <div id="game">
         <div id="header-container">
-          <Header mines={mines} handleClick={this.handleClick} state={gameState} time={time} pad={this.pad} />
+          <Header 
+            mines={mines} 
+            handleClick={this.handleClick} 
+            handleNewGameClick={this.handleNewGameClick} 
+            state={gameState} 
+            time={time} 
+            pad={this.pad}
+          />
         </div>
         <div id="squares-container">
-          <Board mines={mines} boardSize={boardSize} gameStarted={gameStarted} handleTimerClick={this.handleTimerClick} handleSquareClick={this.handleSquareClick} increment={this.incrementMineCount} decrement={this.decrementMineCount} stopTimer={this.stopTimer} setNumCount={this.setNumCount} decrementNumCount={this.decrementNumCount} />
+          <Board 
+            key={this.state.gamesPlayed}
+            mines={mines} 
+            state={gameState}
+            boardSize={boardSize} 
+            gameStarted={gameStarted} 
+            handleTimerClick={this.handleTimerClick} 
+            handleSquareClick={this.handleSquareClick} 
+            increment={this.incrementMineCount} 
+            decrement={this.decrementMineCount} 
+            stopTimer={this.stopTimer} 
+            setNumCount={this.setNumCount} 
+            decrementNumCount={this.decrementNumCount} 
+          />
         </div>
       </div>
     );

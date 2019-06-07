@@ -27990,13 +27990,13 @@ function (_Component) {
       if (value === null) {
         // right
         if (squares[count + 1] && this.checkRightEdge(count + 1) && !this.state.clicked) {
-          console.log('clicked square[count + 1]', count + 1, this.state.clicked);
+          // console.log('clicked square[count + 1]', count + 1, this.state.clicked)
           squares[count + 1].click(); // this.checkNeighbors(+squares[count + 1].textContent); // WHY IS THERE A VALUE AS 2ND PARAM?
         } // left
 
 
         if (squares[count - 1] && this.checkLeftEdge(count - 1) && !this.state.clicked) {
-          console.log('clicked square[count - 1]', count - 1, this.state.clicked);
+          // console.log('clicked square[count - 1]', count - 1, this.state.clicked)
           squares[count - 1].click(); // this.checkNeighbors(+squares[count - 1].textContent);
         } // // bottom left
         // if (squares[count + 8] && !this.state.clicked && this.checkLeftEdge(count + 8)) {
@@ -28012,13 +28012,13 @@ function (_Component) {
 
 
         if (squares[count + 9] && !this.state.clicked) {
-          console.log('clicked square[count + 9]', count + 9, this.state.clicked);
+          // console.log('clicked square[count + 9]', count + 9, this.state.clicked)
           squares[count + 9].click(); // this.checkNeighbors(+squares[count + 9].textContent);
         } // // top middle
 
 
         if (squares[count - 9] && !this.state.clicked) {
-          console.log('clicked square[count - 9]', count - 9, this.state.clicked);
+          // console.log('clicked square[count - 9]', count - 9, this.state.clicked)
           squares[count - 9].click(); // this.checkNeighbors(+squares[count - 9].textContent);
         } // // bottom right
         // if (squares[count + 10] && !this.state.clicked && this.checkRightEdge(count + 10)) {
@@ -28063,31 +28063,45 @@ function (_Component) {
     key: "handleClick",
     value: function handleClick() {
       var _this$props = this.props,
+          state = _this$props.state,
+          board = _this$props.board,
           value = _this$props.value,
           gameStarted = _this$props.gameStarted,
           handleTimerClick = _this$props.handleTimerClick,
           handleSquareClick = _this$props.handleSquareClick,
           renderBoard = _this$props.renderBoard,
-          decrementNumCount = _this$props.decrementNumCount; // this.promiseCheckFirst()
-      //   .then(() => {
-      //     renderBoard();
-      //   })
+          decrementNumCount = _this$props.decrementNumCount;
+      var squares = document.getElementsByClassName("square");
 
-      if (value !== "MINE" && value !== null) {
-        decrementNumCount();
+      if (state !== "lose") {
+        if (value !== "MINE" && value !== null) {
+          decrementNumCount();
+        }
+
+        if (!this.state.flagged) {
+          this.setState({
+            clicked: true
+          }, this.checkNeighbors(value));
+        }
+
+        if (gameStarted === false && state === "alive") {
+          handleTimerClick();
+        }
+
+        handleSquareClick(value, function () {
+          var count = 0;
+
+          for (var i = 0; i < board.length; i++) {
+            for (var j = 0; j < board.length; j++) {
+              count++;
+
+              if (board[i][j] === "MINE") {// squares[count - 1].click(); // Leading to another infinite loop...
+                // console.log('mine', count - 1)
+              }
+            }
+          }
+        });
       }
-
-      if (!this.state.flagged) {
-        this.setState({
-          clicked: true
-        }, this.checkNeighbors(value));
-      }
-
-      if (gameStarted === false) {
-        handleTimerClick();
-      }
-
-      handleSquareClick(value);
     }
   }, {
     key: "handleRightClick",
@@ -28131,27 +28145,7 @@ function (_Component) {
         // document.styleSheets[0].insertRule('.square:active { border-style: outset; }', 0);
         square[0].style.background = "none";
       }
-    } // checkFirstClick() {
-    //   const { value, board, gameStarted, updateBoard } = this.props;
-    //   if (!gameStarted) {
-    //     if (value !== null) {
-    //       updateBoard(board.length);
-    //       console.log(value)
-    //     }
-    //   }
-    // }
-    // promiseCheckFirst() {
-    //   return new Promise((resolve, reject) => {
-    //     this.checkFirstClick((err, data) => {
-    //       if (err) {
-    //         reject(err);
-    //       } else {
-    //         resolve(data);
-    //       }
-    //     });
-    //   });
-    // }
-
+    }
   }, {
     key: "convertValue",
     value: function convertValue() {
@@ -28322,20 +28316,23 @@ function (_Component) {
     value: function renderSquare(i, j, count) {
       var board = this.state.board;
       var _this$props = this.props,
+          state = _this$props.state,
+          boardSize = _this$props.boardSize,
           gameStarted = _this$props.gameStarted,
           increment = _this$props.increment,
           decrement = _this$props.decrement,
           handleSquareClick = _this$props.handleSquareClick,
           handleTimerClick = _this$props.handleTimerClick,
           decrementNumCount = _this$props.decrementNumCount;
-      return _react.default.createElement(_Square.default // Handle timer click, handle square click are changing state but this function is being called in render so it is infinitely rendering
-      , {
+      return _react.default.createElement(_Square.default, {
         key: count,
         count: count,
         board: board,
+        state: state,
         value: board[i][j],
         increment: increment,
         decrement: decrement,
+        boardSize: boardSize,
         gameStarted: gameStarted // renderBoard={this.renderBoard}
         // updateBoard={this.updateBoard}
         ,
@@ -28577,7 +28574,7 @@ var NewGameButton = function NewGameButton(props) {
 
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement("button", {
     className: "new-game unselectable",
-    onClick: null
+    onClick: props.handleNewGameClick
   }, button(state)));
 };
 
@@ -28604,12 +28601,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var Header = function Header(props) {
+  var pad = props.pad,
+      time = props.time,
+      mines = props.mines,
+      state = props.state,
+      handleNewGameClick = props.handleNewGameClick;
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_MineCount.default, {
-    mines: props.pad(props.mines)
+    mines: pad(mines)
   }), _react.default.createElement(_NewGameButton.default, {
-    state: props.state
+    handleNewGameClick: handleNewGameClick,
+    state: state
   }), _react.default.createElement(_Timer.default, {
-    time: props.time
+    time: time
   }));
 };
 
@@ -28663,17 +28666,19 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.state = {
-      mines: 10,
+      mines: 16,
       boardSize: 9,
       numbers: 0,
       time: "000",
       gameState: "alive",
-      gameStarted: false
+      gameStarted: false,
+      gamesPlayed: 1
     };
     _this.pad = _this.pad.bind(_assertThisInitialized(_this));
     _this.setNumCount = _this.setNumCount.bind(_assertThisInitialized(_this));
     _this.handleTimerClick = _this.handleTimerClick.bind(_assertThisInitialized(_this));
     _this.handleSquareClick = _this.handleSquareClick.bind(_assertThisInitialized(_this));
+    _this.handleNewGameClick = _this.handleNewGameClick.bind(_assertThisInitialized(_this));
     _this.decrementNumCount = _this.decrementNumCount.bind(_assertThisInitialized(_this));
     _this.incrementMineCount = _this.incrementMineCount.bind(_assertThisInitialized(_this));
     _this.decrementMineCount = _this.decrementMineCount.bind(_assertThisInitialized(_this));
@@ -28712,6 +28717,17 @@ function (_Component) {
       this.setState({
         time: "000"
       });
+    }
+  }, {
+    key: "handleNewGameClick",
+    value: function handleNewGameClick() {
+      this.setState({
+        gamesPlayed: this.state.gamesPlayed + 1,
+        gameState: "alive",
+        time: "000",
+        mines: 10
+      });
+      this.stopTimer();
     } // handleClick(e) {
     //   this.setState({
     //     boardSize: e.target.value
@@ -28720,18 +28736,23 @@ function (_Component) {
 
   }, {
     key: "handleSquareClick",
-    value: function handleSquareClick(value) {
+    value: function handleSquareClick(value, callback) {
       var numbers = this.state.numbers;
+      var squares = document.getElementsByClassName("square");
 
       if (value === "MINE") {
         this.setState({
           gameState: "lose",
           gameStarted: false
+        }, function () {
+          callback();
         });
         this.stopTimer();
 
         for (var i = 0; i < squares.length; i++) {
-          squares[i].disabled = true;
+          // if (squares[i].style.background !== "none") {
+          // console.log(squares[i].style)
+          squares[i].disabled = true; // }
         } // } else if () {
         //   this.setState({
         //     gameState: "clicked"
@@ -28742,7 +28763,7 @@ function (_Component) {
         this.setState({
           gameState: "win"
         });
-      } else if (value === null) {
+      } else {
         this.setState({
           gameState: "alive",
           gameStarted: true
@@ -28793,13 +28814,16 @@ function (_Component) {
       }, _react.default.createElement(_Header.default, {
         mines: mines,
         handleClick: this.handleClick,
+        handleNewGameClick: this.handleNewGameClick,
         state: gameState,
         time: time,
         pad: this.pad
       })), _react.default.createElement("div", {
         id: "squares-container"
       }, _react.default.createElement(_Board.default, {
+        key: this.state.gamesPlayed,
         mines: mines,
+        state: gameState,
         boardSize: boardSize,
         gameStarted: gameStarted,
         handleTimerClick: this.handleTimerClick,
@@ -28858,7 +28882,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60616" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60703" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

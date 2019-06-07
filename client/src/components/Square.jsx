@@ -32,13 +32,13 @@ class Square extends Component {
     if (value === null) {
       // right
       if (squares[count + 1] && this.checkRightEdge(count + 1) && !this.state.clicked) {
-        console.log('clicked square[count + 1]', count + 1, this.state.clicked)
+        // console.log('clicked square[count + 1]', count + 1, this.state.clicked)
         squares[count + 1].click();
         // this.checkNeighbors(+squares[count + 1].textContent); // WHY IS THERE A VALUE AS 2ND PARAM?
       }
       // left
       if (squares[count - 1] && this.checkLeftEdge(count - 1) && !this.state.clicked) {
-        console.log('clicked square[count - 1]', count - 1, this.state.clicked)
+        // console.log('clicked square[count - 1]', count - 1, this.state.clicked)
         squares[count - 1].click();
         // this.checkNeighbors(+squares[count - 1].textContent);
       }
@@ -54,13 +54,13 @@ class Square extends Component {
       // }
       // // bottom middle
       if (squares[count + 9] && !this.state.clicked) {
-        console.log('clicked square[count + 9]', count + 9, this.state.clicked)
+        // console.log('clicked square[count + 9]', count + 9, this.state.clicked)
         squares[count + 9].click();
         // this.checkNeighbors(+squares[count + 9].textContent);
       }
       // // top middle
       if (squares[count - 9] && !this.state.clicked) {
-        console.log('clicked square[count - 9]', count - 9, this.state.clicked)
+        // console.log('clicked square[count - 9]', count - 9, this.state.clicked)
         squares[count - 9].click();
         // this.checkNeighbors(+squares[count - 9].textContent);
       }
@@ -100,26 +100,38 @@ class Square extends Component {
 
 
   handleClick() {
-    const { value, gameStarted, handleTimerClick, handleSquareClick, renderBoard, decrementNumCount } = this.props;
+    const { state, board, value, gameStarted, handleTimerClick, handleSquareClick, renderBoard, decrementNumCount } = this.props;
+    const squares = document.getElementsByClassName("square");
     
-    // this.promiseCheckFirst()
-    //   .then(() => {
-    //     renderBoard();
-    //   })
-    if (value !== "MINE" && value !== null) {
-      decrementNumCount();
+    if (state !== "lose") {
+      if (value !== "MINE" && value !== null) {
+        decrementNumCount();
+      }
+  
+      if (!this.state.flagged) {
+        this.setState({
+          clicked: true
+        }, this.checkNeighbors(value));
+      }
+      
+      if (gameStarted === false && state === "alive") {
+        handleTimerClick();
+      }
+      
+      handleSquareClick(value, () => {
+        let count = 0;
+        for (let i = 0; i < board.length; i++) {
+          for (let j = 0; j < board.length; j++) {
+            count++;
+            if (board[i][j] === "MINE") {
+              // squares[count - 1].click(); // Leading to another infinite loop...
+              // console.log('mine', count - 1)
+            }
+          }
+        }
+      });
     }
 
-    if (!this.state.flagged) {
-      this.setState({
-        clicked: true
-      }, this.checkNeighbors(value));
-    }
-    
-    if (gameStarted === false) {
-      handleTimerClick();
-    }
-    handleSquareClick(value);
   }
 
   handleRightClick(e) {
@@ -159,29 +171,6 @@ class Square extends Component {
       square[0].style.background = "none";
     }
   }
-
-  // checkFirstClick() {
-  //   const { value, board, gameStarted, updateBoard } = this.props;
-
-  //   if (!gameStarted) {
-  //     if (value !== null) {
-  //       updateBoard(board.length);
-  //       console.log(value)
-  //     }
-  //   }
-  // }
-
-  // promiseCheckFirst() {
-  //   return new Promise((resolve, reject) => {
-  //     this.checkFirstClick((err, data) => {
-  //       if (err) {
-  //         reject(err);
-  //       } else {
-  //         resolve(data);
-  //       }
-  //     });
-  //   });
-  // }
 
   convertValue() {
     const { value } = this.props;
