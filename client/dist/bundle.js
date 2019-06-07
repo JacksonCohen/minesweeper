@@ -27984,51 +27984,54 @@ function (_Component) {
   _createClass(Square, [{
     key: "checkNeighbors",
     value: function checkNeighbors(value) {
-      var count = this.props.count;
+      var clicked = this.state.clicked;
+      var _this$props = this.props,
+          count = _this$props.count,
+          boardSize = _this$props.boardSize;
       var squares = document.getElementsByClassName("square");
 
       if (value === null) {
         // right
-        if (squares[count + 1] && this.checkRightEdge(count + 1) && !this.state.clicked) {
-          // console.log('clicked square[count + 1]', count + 1, this.state.clicked)
-          squares[count + 1].click(); // this.checkNeighbors(+squares[count + 1].textContent); // WHY IS THERE A VALUE AS 2ND PARAM?
+        if (squares[count + 1] && this.checkRightEdge(count + 1) && !clicked) {
+          // console.log('clicked square[count + 1]', count + 1, clicked)
+          squares[count + 1].click(); // this.checkNeighbors(+squares[count + 1].textContent);
         } // left
 
 
-        if (squares[count - 1] && this.checkLeftEdge(count - 1) && !this.state.clicked) {
-          // console.log('clicked square[count - 1]', count - 1, this.state.clicked)
+        if (squares[count - 1] && this.checkLeftEdge(count - 1) && !clicked) {
+          // console.log('clicked square[count - 1]', count - 1, clicked)
           squares[count - 1].click(); // this.checkNeighbors(+squares[count - 1].textContent);
         } // // bottom left
-        // if (squares[count + 8] && !this.state.clicked && this.checkLeftEdge(count + 8)) {
-        //   squares[count + 8].click();
-        //   // this.checkNeighbors(+squares[count + 8].textContent);
+        // if (squares[count + boardSize - 1] && !clicked && this.checkLeftEdge(count + boardSize - 1)) {
+        //   squares[count + boardSize - 1].click();
+        //   // this.checkNeighbors(+squares[count + boardSize - 1].textContent);
         // }
         // // top right
-        // if (squares[count - 8] && !this.state.clicked && this.checkRightEdge(count - 8)) {
-        //   squares[count - 8].click();
-        //   // this.checkNeighbors(+squares[count - 8].textContent);
+        // if (squares[count - boardSize - 1] && !clicked && this.checkRightEdge(count - boardSize - 1)) {
+        //   squares[count - boardSize - 1].click();
+        //   // this.checkNeighbors(+squares[count - boardSize - 1].textContent);
         // }
         // // bottom middle
 
 
-        if (squares[count + 9] && !this.state.clicked) {
-          // console.log('clicked square[count + 9]', count + 9, this.state.clicked)
-          squares[count + 9].click(); // this.checkNeighbors(+squares[count + 9].textContent);
+        if (squares[count + boardSize] && !clicked) {
+          // console.log('clicked square[count + boardSize]', count + boardSize, clicked)
+          squares[count + boardSize].click(); // this.checkNeighbors(+squares[count + boardSize].textContent);
         } // // top middle
 
 
-        if (squares[count - 9] && !this.state.clicked) {
-          // console.log('clicked square[count - 9]', count - 9, this.state.clicked)
-          squares[count - 9].click(); // this.checkNeighbors(+squares[count - 9].textContent);
+        if (squares[count - boardSize] && !clicked) {
+          // console.log('clicked square[count - boardSize]', count - boardSize, clicked)
+          squares[count - boardSize].click(); // this.checkNeighbors(+squares[count - boardSize].textContent);
         } // // bottom right
-        // if (squares[count + 10] && !this.state.clicked && this.checkRightEdge(count + 10)) {
-        //   squares[count + 10].click();
-        //   // this.checkNeighbors(+squares[count + 10].textContent);
+        // if (squares[count + boardSize + 1] && !clicked && this.checkRightEdge(count + boardSize + 1)) {
+        //   squares[count + boardSize + 1].click();
+        //   // this.checkNeighbors(+squares[count + boardSize + 1].textContent);
         // }
         // // top left
-        // if (squares[count - 10] && !this.state.clicked && this.checkLeftEdge(count - 10)) {
-        //   squares[count - 10].click();
-        //   // this.checkNeighbors(+squares[count - 10].textContent);
+        // if (squares[count - boardSize + 1] && !clicked && this.checkLeftEdge(count - boardSize + 1)) {
+        //   squares[count - boardSize + 1].click();
+        //   // this.checkNeighbors(+squares[count - boardSize + 1].textContent);
         // }
 
       }
@@ -28062,15 +28065,15 @@ function (_Component) {
   }, {
     key: "handleClick",
     value: function handleClick() {
-      var _this$props = this.props,
-          state = _this$props.state,
-          board = _this$props.board,
-          value = _this$props.value,
-          gameStarted = _this$props.gameStarted,
-          handleTimerClick = _this$props.handleTimerClick,
-          handleSquareClick = _this$props.handleSquareClick,
-          renderBoard = _this$props.renderBoard,
-          decrementNumCount = _this$props.decrementNumCount;
+      var _this$props2 = this.props,
+          state = _this$props2.state,
+          board = _this$props2.board,
+          value = _this$props2.value,
+          gameStarted = _this$props2.gameStarted,
+          handleTimerClick = _this$props2.handleTimerClick,
+          handleSquareClick = _this$props2.handleSquareClick,
+          renderBoard = _this$props2.renderBoard,
+          decrementNumCount = _this$props2.decrementNumCount;
       var squares = document.getElementsByClassName("square");
 
       if (state !== "lose") {
@@ -28106,9 +28109,9 @@ function (_Component) {
   }, {
     key: "handleRightClick",
     value: function handleRightClick(e) {
-      var _this$props2 = this.props,
-          increment = _this$props2.increment,
-          decrement = _this$props2.decrement;
+      var _this$props3 = this.props,
+          increment = _this$props3.increment,
+          decrement = _this$props3.decrement;
       var _this$state = this.state,
           flagged = _this$state.flagged,
           clicked = _this$state.clicked;
@@ -28208,9 +28211,9 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _this$props3 = this.props,
-          count = _this$props3.count,
-          value = _this$props3.value;
+      var _this$props4 = this.props,
+          count = _this$props4.count,
+          value = _this$props4.value;
       var clicked = this.state.clicked;
       var square = document.getElementsByClassName("square".concat(count));
 

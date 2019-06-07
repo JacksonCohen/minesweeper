@@ -26,53 +26,54 @@ class Square extends Component {
   }
 
   checkNeighbors(value) {
-    const { count } = this.props;
+    const { clicked } = this.state;
+    const { count, boardSize } = this.props;
     const squares = document.getElementsByClassName("square");
 
     if (value === null) {
       // right
-      if (squares[count + 1] && this.checkRightEdge(count + 1) && !this.state.clicked) {
-        // console.log('clicked square[count + 1]', count + 1, this.state.clicked)
+      if (squares[count + 1] && this.checkRightEdge(count + 1) && !clicked) {
+        // console.log('clicked square[count + 1]', count + 1, clicked)
         squares[count + 1].click();
-        // this.checkNeighbors(+squares[count + 1].textContent); // WHY IS THERE A VALUE AS 2ND PARAM?
+        // this.checkNeighbors(+squares[count + 1].textContent);
       }
       // left
-      if (squares[count - 1] && this.checkLeftEdge(count - 1) && !this.state.clicked) {
-        // console.log('clicked square[count - 1]', count - 1, this.state.clicked)
+      if (squares[count - 1] && this.checkLeftEdge(count - 1) && !clicked) {
+        // console.log('clicked square[count - 1]', count - 1, clicked)
         squares[count - 1].click();
         // this.checkNeighbors(+squares[count - 1].textContent);
       }
       // // bottom left
-      // if (squares[count + 8] && !this.state.clicked && this.checkLeftEdge(count + 8)) {
-      //   squares[count + 8].click();
-      //   // this.checkNeighbors(+squares[count + 8].textContent);
+      // if (squares[count + boardSize - 1] && !clicked && this.checkLeftEdge(count + boardSize - 1)) {
+      //   squares[count + boardSize - 1].click();
+      //   // this.checkNeighbors(+squares[count + boardSize - 1].textContent);
       // }
       // // top right
-      // if (squares[count - 8] && !this.state.clicked && this.checkRightEdge(count - 8)) {
-      //   squares[count - 8].click();
-      //   // this.checkNeighbors(+squares[count - 8].textContent);
+      // if (squares[count - boardSize - 1] && !clicked && this.checkRightEdge(count - boardSize - 1)) {
+      //   squares[count - boardSize - 1].click();
+      //   // this.checkNeighbors(+squares[count - boardSize - 1].textContent);
       // }
       // // bottom middle
-      if (squares[count + 9] && !this.state.clicked) {
-        // console.log('clicked square[count + 9]', count + 9, this.state.clicked)
-        squares[count + 9].click();
-        // this.checkNeighbors(+squares[count + 9].textContent);
+      if (squares[count + boardSize] && !clicked) {
+        // console.log('clicked square[count + boardSize]', count + boardSize, clicked)
+        squares[count + boardSize].click();
+        // this.checkNeighbors(+squares[count + boardSize].textContent);
       }
       // // top middle
-      if (squares[count - 9] && !this.state.clicked) {
-        // console.log('clicked square[count - 9]', count - 9, this.state.clicked)
-        squares[count - 9].click();
-        // this.checkNeighbors(+squares[count - 9].textContent);
+      if (squares[count - boardSize] && !clicked) {
+        // console.log('clicked square[count - boardSize]', count - boardSize, clicked)
+        squares[count - boardSize].click();
+        // this.checkNeighbors(+squares[count - boardSize].textContent);
       }
       // // bottom right
-      // if (squares[count + 10] && !this.state.clicked && this.checkRightEdge(count + 10)) {
-      //   squares[count + 10].click();
-      //   // this.checkNeighbors(+squares[count + 10].textContent);
+      // if (squares[count + boardSize + 1] && !clicked && this.checkRightEdge(count + boardSize + 1)) {
+      //   squares[count + boardSize + 1].click();
+      //   // this.checkNeighbors(+squares[count + boardSize + 1].textContent);
       // }
       // // top left
-      // if (squares[count - 10] && !this.state.clicked && this.checkLeftEdge(count - 10)) {
-      //   squares[count - 10].click();
-      //   // this.checkNeighbors(+squares[count - 10].textContent);
+      // if (squares[count - boardSize + 1] && !clicked && this.checkLeftEdge(count - boardSize + 1)) {
+      //   squares[count - boardSize + 1].click();
+      //   // this.checkNeighbors(+squares[count - boardSize + 1].textContent);
       // }
     }
   }
