@@ -28711,7 +28711,7 @@ function (_Component) {
   }, {
     key: "stopTimer",
     value: function stopTimer() {
-      return clearInterval(this.timer);
+      clearInterval(this.timer);
     }
   }, {
     key: "handleTimerClick",
@@ -28739,6 +28739,7 @@ function (_Component) {
     value: function handleNewGameClick() {
       this.setState({
         gamesPlayed: this.state.gamesPlayed + 1,
+        gameStarted: false,
         gameState: "alive",
         time: "000",
         mines: 10

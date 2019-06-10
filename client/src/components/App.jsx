@@ -34,7 +34,7 @@ class App extends Component {
   }
 
   stopTimer() {
-    return clearInterval(this.timer);
+    clearInterval(this.timer);
   }
 
   handleTimerClick() {
@@ -58,6 +58,7 @@ class App extends Component {
   handleNewGameClick() {
     this.setState({
       gamesPlayed: this.state.gamesPlayed + 1,
+      gameStarted: false,
       gameState: "alive",
       time: "000",
       mines: 10
