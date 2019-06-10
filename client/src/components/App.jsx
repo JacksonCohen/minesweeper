@@ -7,7 +7,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      mines: 16,
+      mines: 10,
       boardSize: 9,
       numbers: 0,
       time: "000",
@@ -66,8 +66,22 @@ class App extends Component {
   }
 
   // handleClick(e) {
+  //   let boardSize, mineCount;
+    
+  //   if (e.target.value === "Beginner") {
+  //     boardSize = 9;
+  //     mineCount = 10;
+  //   } else if (e.target.value === "Intermediate") {
+  //     boardSize = 16;
+  //     mineCount = 40;
+  //   } else {
+  //     boardSize = 22;
+  //     mineCount = 99;
+  //   }
+
   //   this.setState({
-  //     boardSize: e.target.value
+  //     boardSize: boardSize,
+  //     mines: mineCount
   //   });
   // }
 
@@ -75,7 +89,7 @@ class App extends Component {
     const { numbers } = this.state;
     const squares = document.getElementsByClassName("square");
 
-    if (value === "MINE") {
+    if (value === "MINE") {    //! FIX ME - add logic for detecting if clicking on flagged mine
       this.setState({
         gameState: "lose",
         gameStarted: false
@@ -129,33 +143,33 @@ class App extends Component {
   }
 
   render() {
-    const { time, mines, boardSize, gameState, gameStarted } = this.state; 
+    const { time, mines, boardSize, gameState, gameStarted, gamesPlayed } = this.state; 
 
     return (
       <div id="game">
         <div id="header-container">
           <Header 
+            time={time} 
             mines={mines} 
+            pad={this.pad}
+            state={gameState} 
             handleClick={this.handleClick} 
             handleNewGameClick={this.handleNewGameClick} 
-            state={gameState} 
-            time={time} 
-            pad={this.pad}
           />
         </div>
         <div id="squares-container">
           <Board 
-            key={this.state.gamesPlayed}
+            key={gamesPlayed}
             mines={mines} 
             state={gameState}
             boardSize={boardSize} 
             gameStarted={gameStarted} 
-            handleTimerClick={this.handleTimerClick} 
-            handleSquareClick={this.handleSquareClick} 
-            increment={this.incrementMineCount} 
-            decrement={this.decrementMineCount} 
             stopTimer={this.stopTimer} 
             setNumCount={this.setNumCount} 
+            increment={this.incrementMineCount} 
+            decrement={this.decrementMineCount} 
+            handleTimerClick={this.handleTimerClick} 
+            handleSquareClick={this.handleSquareClick} 
             decrementNumCount={this.decrementNumCount} 
           />
         </div>

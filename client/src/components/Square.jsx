@@ -31,49 +31,41 @@ class Square extends Component {
     const squares = document.getElementsByClassName("square");
 
     if (value === null) {
-      // right
+      //* right
       if (squares[count + 1] && this.checkRightEdge(count + 1) && !clicked) {
-        // console.log('clicked square[count + 1]', count + 1, clicked)
+        console.log('clicked + 1', count + 1, clicked)
         squares[count + 1].click();
-        // this.checkNeighbors(+squares[count + 1].textContent);
       }
-      // left
+      //* left
       if (squares[count - 1] && this.checkLeftEdge(count - 1) && !clicked) {
-        // console.log('clicked square[count - 1]', count - 1, clicked)
+        console.log('clicked - 1', count - 1, clicked)
         squares[count - 1].click();
-        // this.checkNeighbors(+squares[count - 1].textContent);
       }
-      // // bottom left
+      //* bottom left
       // if (squares[count + boardSize - 1] && !clicked && this.checkLeftEdge(count + boardSize - 1)) {
       //   squares[count + boardSize - 1].click();
-      //   // this.checkNeighbors(+squares[count + boardSize - 1].textContent);
       // }
-      // // top right
+      //* top right
       // if (squares[count - boardSize - 1] && !clicked && this.checkRightEdge(count - boardSize - 1)) {
       //   squares[count - boardSize - 1].click();
-      //   // this.checkNeighbors(+squares[count - boardSize - 1].textContent);
       // }
-      // // bottom middle
+      //* bottom middle
       if (squares[count + boardSize] && !clicked) {
-        // console.log('clicked square[count + boardSize]', count + boardSize, clicked)
+        console.log('clicked + 9', count + boardSize, clicked)
         squares[count + boardSize].click();
-        // this.checkNeighbors(+squares[count + boardSize].textContent);
       }
-      // // top middle
+      //* top middle
       if (squares[count - boardSize] && !clicked) {
-        // console.log('clicked square[count - boardSize]', count - boardSize, clicked)
+        console.log('clicked - 9', count - boardSize, clicked)
         squares[count - boardSize].click();
-        // this.checkNeighbors(+squares[count - boardSize].textContent);
       }
-      // // bottom right
+      //* bottom right
       // if (squares[count + boardSize + 1] && !clicked && this.checkRightEdge(count + boardSize + 1)) {
       //   squares[count + boardSize + 1].click();
-      //   // this.checkNeighbors(+squares[count + boardSize + 1].textContent);
       // }
-      // // top left
+      //* top left
       // if (squares[count - boardSize + 1] && !clicked && this.checkLeftEdge(count - boardSize + 1)) {
       //   squares[count - boardSize + 1].click();
-      //   // this.checkNeighbors(+squares[count - boardSize + 1].textContent);
       // }
     }
   }
@@ -101,10 +93,12 @@ class Square extends Component {
 
 
   handleClick() {
-    const { state, board, value, gameStarted, handleTimerClick, handleSquareClick, renderBoard, decrementNumCount } = this.props;
+    const { state, board, value, gameStarted, handleTimerClick, handleSquareClick, decrementNumCount } = this.props;
     const squares = document.getElementsByClassName("square");
     
-    if (state !== "lose") {
+    // this.checkFirstClick();    //! FIX ME - ensure first click is on a null square
+
+    if (state === "alive") {
       if (value !== "MINE" && value !== null) {
         decrementNumCount();
       }
@@ -115,7 +109,7 @@ class Square extends Component {
         }, this.checkNeighbors(value));
       }
       
-      if (gameStarted === false && state === "alive") {
+      if (gameStarted === false) {
         handleTimerClick();
       }
       
@@ -124,7 +118,7 @@ class Square extends Component {
         for (let i = 0; i < board.length; i++) {
           for (let j = 0; j < board.length; j++) {
             count++;
-            if (board[i][j] === "MINE") {
+            if (board[i][j] === "MINE") {    //! FIX ME - add number counter for "win" logic
               // squares[count - 1].click(); // Leading to another infinite loop...
               // console.log('mine', count - 1)
             }
@@ -132,7 +126,6 @@ class Square extends Component {
         }
       });
     }
-
   }
 
   handleRightClick(e) {
@@ -161,7 +154,7 @@ class Square extends Component {
     const square = document.getElementsByClassName(`square${count}`);
   
     // document.styleSheets[0].insertRule('.square:active { border-style: outset !important; }', 0);
-    // document.styleSheets[0].cssRules[0].style.borderStyle = 'outset';
+    // document.styleSheets[0].cssRules[0].style.borderStyle = 'outset';    //! FIX ME - remove right click button animation
 
     if (!flagged && !clicked) {
       square[0].style.background = `url(${flag}) 3px 3px`;
@@ -170,6 +163,15 @@ class Square extends Component {
     } else {
       // document.styleSheets[0].insertRule('.square:active { border-style: outset; }', 0);
       square[0].style.background = "none";
+    }
+  }
+
+  checkFirstClick() {
+    const { value, board, gameStarted, updateBoard } = this.props;
+
+    if (!gameStarted && value !== null) {
+      console.log('first click value', value)
+      // updateBoard(board.length);
     }
   }
 
@@ -210,7 +212,7 @@ class Square extends Component {
       <button className={`square square${count} unselectable`} onClick={() => { this.handleClick() }} onContextMenu={(e) => { this.handleRightClick(e) }}>
         {clicked ? this.convertValue() : null}
         <div className="hide">{value}</div>
-        {/* {this.props.count} */}
+        {/* {count} */}
       </button>
     );
   }

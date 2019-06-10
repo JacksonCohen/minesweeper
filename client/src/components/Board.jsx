@@ -5,8 +5,7 @@ class Board extends Component {
   constructor(props) {
     super(props);
 
-    // this.renderBoard = this.renderBoard.bind(this);
-    // this.updateBoard = this.updateBoard.bind(this);
+    this.updateBoard = this.updateBoard.bind(this);
   }
 
   componentWillMount() {
@@ -44,8 +43,7 @@ class Board extends Component {
         decrement={decrement}
         boardSize={boardSize}
         gameStarted={gameStarted}
-        // renderBoard={this.renderBoard}
-        // updateBoard={this.updateBoard}
+        updateBoard={this.updateBoard}
         handleTimerClick={handleTimerClick}
         handleSquareClick={handleSquareClick}
         decrementNumCount={decrementNumCount}
@@ -67,10 +65,11 @@ class Board extends Component {
   }
 
   placeMines() {
-    const minesObject = {};
     const { mines, boardSize } = this.props;
-    const { board } = this.state; 
+    const { board } = this.state;
+    const minesObject = {}, newBoard = board.slice();
     
+
     while (Object.keys(minesObject).length < mines) {
       const coords = [
         Math.floor(Math.random() * boardSize), 
@@ -83,11 +82,11 @@ class Board extends Component {
     const minesArray = Object.keys(minesObject).map(key => key.split(",").map(val => +val));
 
     for (let i = 0; i < minesArray.length; i++) {
-      board[minesArray[i][0]][minesArray[i][1]] = "MINE";
+      newBoard[minesArray[i][0]][minesArray[i][1]] = "MINE";
     }
 
     this.setState({
-      board: board
+      board: newBoard
     });
   }
 

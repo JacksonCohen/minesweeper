@@ -27991,47 +27991,43 @@ function (_Component) {
       var squares = document.getElementsByClassName("square");
 
       if (value === null) {
-        // right
+        //* right
         if (squares[count + 1] && this.checkRightEdge(count + 1) && !clicked) {
-          // console.log('clicked square[count + 1]', count + 1, clicked)
-          squares[count + 1].click(); // this.checkNeighbors(+squares[count + 1].textContent);
-        } // left
+          console.log('clicked + 1', count + 1, clicked);
+          squares[count + 1].click();
+        } //* left
 
 
         if (squares[count - 1] && this.checkLeftEdge(count - 1) && !clicked) {
-          // console.log('clicked square[count - 1]', count - 1, clicked)
-          squares[count - 1].click(); // this.checkNeighbors(+squares[count - 1].textContent);
-        } // // bottom left
+          console.log('clicked - 1', count - 1, clicked);
+          squares[count - 1].click();
+        } //* bottom left
         // if (squares[count + boardSize - 1] && !clicked && this.checkLeftEdge(count + boardSize - 1)) {
         //   squares[count + boardSize - 1].click();
-        //   // this.checkNeighbors(+squares[count + boardSize - 1].textContent);
         // }
-        // // top right
+        //* top right
         // if (squares[count - boardSize - 1] && !clicked && this.checkRightEdge(count - boardSize - 1)) {
         //   squares[count - boardSize - 1].click();
-        //   // this.checkNeighbors(+squares[count - boardSize - 1].textContent);
         // }
-        // // bottom middle
+        //* bottom middle
 
 
         if (squares[count + boardSize] && !clicked) {
-          // console.log('clicked square[count + boardSize]', count + boardSize, clicked)
-          squares[count + boardSize].click(); // this.checkNeighbors(+squares[count + boardSize].textContent);
-        } // // top middle
+          console.log('clicked + 9', count + boardSize, clicked);
+          squares[count + boardSize].click();
+        } //* top middle
 
 
         if (squares[count - boardSize] && !clicked) {
-          // console.log('clicked square[count - boardSize]', count - boardSize, clicked)
-          squares[count - boardSize].click(); // this.checkNeighbors(+squares[count - boardSize].textContent);
-        } // // bottom right
+          console.log('clicked - 9', count - boardSize, clicked);
+          squares[count - boardSize].click();
+        } //* bottom right
         // if (squares[count + boardSize + 1] && !clicked && this.checkRightEdge(count + boardSize + 1)) {
         //   squares[count + boardSize + 1].click();
-        //   // this.checkNeighbors(+squares[count + boardSize + 1].textContent);
         // }
-        // // top left
+        //* top left
         // if (squares[count - boardSize + 1] && !clicked && this.checkLeftEdge(count - boardSize + 1)) {
         //   squares[count - boardSize + 1].click();
-        //   // this.checkNeighbors(+squares[count - boardSize + 1].textContent);
         // }
 
       }
@@ -28072,11 +28068,10 @@ function (_Component) {
           gameStarted = _this$props2.gameStarted,
           handleTimerClick = _this$props2.handleTimerClick,
           handleSquareClick = _this$props2.handleSquareClick,
-          renderBoard = _this$props2.renderBoard,
           decrementNumCount = _this$props2.decrementNumCount;
-      var squares = document.getElementsByClassName("square");
+      var squares = document.getElementsByClassName("square"); // this.checkFirstClick();    //! FIX ME - ensure first click is on a null square
 
-      if (state !== "lose") {
+      if (state === "alive") {
         if (value !== "MINE" && value !== null) {
           decrementNumCount();
         }
@@ -28087,7 +28082,7 @@ function (_Component) {
           }, this.checkNeighbors(value));
         }
 
-        if (gameStarted === false && state === "alive") {
+        if (gameStarted === false) {
           handleTimerClick();
         }
 
@@ -28098,7 +28093,8 @@ function (_Component) {
             for (var j = 0; j < board.length; j++) {
               count++;
 
-              if (board[i][j] === "MINE") {// squares[count - 1].click(); // Leading to another infinite loop...
+              if (board[i][j] === "MINE") {//! FIX ME - add number counter for "win" logic
+                // squares[count - 1].click(); // Leading to another infinite loop...
                 // console.log('mine', count - 1)
               }
             }
@@ -28138,7 +28134,7 @@ function (_Component) {
           flagged = _this$state2.flagged,
           clicked = _this$state2.clicked;
       var square = document.getElementsByClassName("square".concat(count)); // document.styleSheets[0].insertRule('.square:active { border-style: outset !important; }', 0);
-      // document.styleSheets[0].cssRules[0].style.borderStyle = 'outset';
+      // document.styleSheets[0].cssRules[0].style.borderStyle = 'outset';    //! FIX ME - remove right click button animation
 
       if (!flagged && !clicked) {
         square[0].style.background = "url(".concat(_flag.default, ") 3px 3px");
@@ -28147,6 +28143,19 @@ function (_Component) {
       } else {
         // document.styleSheets[0].insertRule('.square:active { border-style: outset; }', 0);
         square[0].style.background = "none";
+      }
+    }
+  }, {
+    key: "checkFirstClick",
+    value: function checkFirstClick() {
+      var _this$props4 = this.props,
+          value = _this$props4.value,
+          board = _this$props4.board,
+          gameStarted = _this$props4.gameStarted,
+          updateBoard = _this$props4.updateBoard;
+
+      if (!gameStarted && value !== null) {
+        console.log('first click value', value); // updateBoard(board.length);
       }
     }
   }, {
@@ -28211,9 +28220,9 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _this$props4 = this.props,
-          count = _this$props4.count,
-          value = _this$props4.value;
+      var _this$props5 = this.props,
+          count = _this$props5.count,
+          value = _this$props5.value;
       var clicked = this.state.clicked;
       var square = document.getElementsByClassName("square".concat(count));
 
@@ -28266,9 +28275,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -28280,10 +28289,13 @@ function (_Component) {
   _inherits(Board, _Component);
 
   function Board(props) {
+    var _this;
+
     _classCallCheck(this, Board);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props)); // this.renderBoard = this.renderBoard.bind(this);
-    // this.updateBoard = this.updateBoard.bind(this);
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props));
+    _this.updateBoard = _this.updateBoard.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(Board, [{
@@ -28336,9 +28348,8 @@ function (_Component) {
         increment: increment,
         decrement: decrement,
         boardSize: boardSize,
-        gameStarted: gameStarted // renderBoard={this.renderBoard}
-        // updateBoard={this.updateBoard}
-        ,
+        gameStarted: gameStarted,
+        updateBoard: this.updateBoard,
         handleTimerClick: handleTimerClick,
         handleSquareClick: handleSquareClick,
         decrementNumCount: decrementNumCount
@@ -28347,7 +28358,7 @@ function (_Component) {
   }, {
     key: "updateBoard",
     value: function updateBoard(size) {
-      var _this = this;
+      var _this2 = this;
 
       var board = [];
 
@@ -28364,21 +28375,22 @@ function (_Component) {
       this.setState({
         board: board
       }, function () {
-        _this.placeMines();
+        _this2.placeMines();
 
-        _this.placeNumbers();
+        _this2.placeNumbers();
 
-        console.table(_this.state.board);
+        console.table(_this2.state.board);
       });
     }
   }, {
     key: "placeMines",
     value: function placeMines() {
-      var minesObject = {};
       var _this$props2 = this.props,
           mines = _this$props2.mines,
           boardSize = _this$props2.boardSize;
       var board = this.state.board;
+      var minesObject = {},
+          newBoard = board.slice();
 
       while (Object.keys(minesObject).length < mines) {
         var coords = [Math.floor(Math.random() * boardSize), Math.floor(Math.random() * boardSize)];
@@ -28392,11 +28404,11 @@ function (_Component) {
       });
 
       for (var i = 0; i < minesArray.length; i++) {
-        board[minesArray[i][0]][minesArray[i][1]] = "MINE";
+        newBoard[minesArray[i][0]][minesArray[i][1]] = "MINE";
       }
 
       this.setState({
-        board: board
+        board: newBoard
       });
     }
   }, {
@@ -28549,7 +28561,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var NewGameButton = function NewGameButton(props) {
-  var state = props.state;
+  var state = props.state,
+      handleNewGameClick = props.handleNewGameClick;
 
   var button = function button(state) {
     if (state === 'win') {
@@ -28577,7 +28590,7 @@ var NewGameButton = function NewGameButton(props) {
 
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement("button", {
     className: "new-game unselectable",
-    onClick: props.handleNewGameClick
+    onClick: handleNewGameClick
   }, button(state)));
 };
 
@@ -28669,7 +28682,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.state = {
-      mines: 16,
+      mines: 10,
       boardSize: 9,
       numbers: 0,
       time: "000",
@@ -28732,8 +28745,20 @@ function (_Component) {
       });
       this.stopTimer();
     } // handleClick(e) {
+    //   let boardSize, mineCount;
+    //   if (e.target.value === "Beginner") {
+    //     boardSize = 9;
+    //     mineCount = 10;
+    //   } else if (e.target.value === "Intermediate") {
+    //     boardSize = 16;
+    //     mineCount = 40;
+    //   } else {
+    //     boardSize = 22;
+    //     mineCount = 99;
+    //   }
     //   this.setState({
-    //     boardSize: e.target.value
+    //     boardSize: boardSize,
+    //     mines: mineCount
     //   });
     // }
 
@@ -28744,6 +28769,7 @@ function (_Component) {
       var squares = document.getElementsByClassName("square");
 
       if (value === "MINE") {
+        //! FIX ME - add logic for detecting if clicking on flagged mine
         this.setState({
           gameState: "lose",
           gameStarted: false
@@ -28809,32 +28835,33 @@ function (_Component) {
           mines = _this$state.mines,
           boardSize = _this$state.boardSize,
           gameState = _this$state.gameState,
-          gameStarted = _this$state.gameStarted;
+          gameStarted = _this$state.gameStarted,
+          gamesPlayed = _this$state.gamesPlayed;
       return _react.default.createElement("div", {
         id: "game"
       }, _react.default.createElement("div", {
         id: "header-container"
       }, _react.default.createElement(_Header.default, {
-        mines: mines,
-        handleClick: this.handleClick,
-        handleNewGameClick: this.handleNewGameClick,
-        state: gameState,
         time: time,
-        pad: this.pad
+        mines: mines,
+        pad: this.pad,
+        state: gameState,
+        handleClick: this.handleClick,
+        handleNewGameClick: this.handleNewGameClick
       })), _react.default.createElement("div", {
         id: "squares-container"
       }, _react.default.createElement(_Board.default, {
-        key: this.state.gamesPlayed,
+        key: gamesPlayed,
         mines: mines,
         state: gameState,
         boardSize: boardSize,
         gameStarted: gameStarted,
-        handleTimerClick: this.handleTimerClick,
-        handleSquareClick: this.handleSquareClick,
-        increment: this.incrementMineCount,
-        decrement: this.decrementMineCount,
         stopTimer: this.stopTimer,
         setNumCount: this.setNumCount,
+        increment: this.incrementMineCount,
+        decrement: this.decrementMineCount,
+        handleTimerClick: this.handleTimerClick,
+        handleSquareClick: this.handleSquareClick,
         decrementNumCount: this.decrementNumCount
       })));
     }

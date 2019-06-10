@@ -5,7 +5,7 @@ import alive from '../images/minesweeper-alive.png';
 import surprise from '../images/minesweeper-surprised.png';
 
 const NewGameButton = (props) => {
-  const { state } = props;
+  const { state, handleNewGameClick } = props;
 
   const button = (state) => {
     if (state === 'win') {
@@ -21,7 +21,7 @@ const NewGameButton = (props) => {
 
   return (
     <Fragment>
-      <button className="new-game unselectable" onClick={props.handleNewGameClick}>{button(state)}</button>
+      <button className="new-game unselectable" onClick={handleNewGameClick}>{button(state)}</button>
     </Fragment>
   );
 }
