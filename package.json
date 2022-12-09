@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/JacksonCohen/minesweeper#readme",
   "dependencies": {
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "parcel-bundler": "^1.12.3",
     "react": "^16.8.6"
   },
